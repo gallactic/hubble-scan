@@ -13,8 +13,7 @@
 
 .menu {
   background-color: #303f9f;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-right: 15px;
 }
 
 .search-view {
@@ -25,6 +24,8 @@
 
 .search {
   width: 372px;
+  margin-right: 20px;
+  margin-top: 10px;
 }
 @media only screen and (max-width: 699px) {
   .main {
@@ -38,7 +39,7 @@
   display: flex;
   align-items: flex-end;
   flex-direction: column;
-  margin-right: 10px;
+  // margin-right: 10px;
 }
 
 .tab-text {

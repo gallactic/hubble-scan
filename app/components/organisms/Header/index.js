@@ -10,26 +10,37 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Logo } from 'res/Icons';
 import Search from 'components/molecules/Search';
 import './style.scss';
 
-const TabView = props => (
+const TabView = (props) => (
   <Link to={props.to} className="tab-text">
     <Tab label={props.label} />
   </Link>
 );
 
-const MenuView = () => {};
+const MenuItem = (props) => (
+  <Link to={props.to} >
+    <ListItem button>
+      {/* <ListItemText primary={props.label} classes="tab-text"/> */}
+      <div className="tab-text">{props.label}</div>
+    </ListItem>
+  </Link>
+);
 class Header extends React.Component {
-  state = {
-    checked: false
-  };
+
+  constructor(props) {
+    super(props);
+    // Don't call this.setState() here!
+    this.state = { checked: 0 };
+    this.openMenu = this.openMenu.bind(this);
+  }
+
+  openMenu = () => {
+    this.setState({ checked: !this.state.checked });
+  }
   render() {
     const { location, routes } = this.props;
     const { checked } = this.state;
@@ -37,7 +48,7 @@ class Header extends React.Component {
       <div>
         <AppBar position="static">
           <Media query="(max-width: 699px)">
-            {matches => (
+            {(matches) => (
               <div>
                 <div className="main">
                   <Link to={routes[0]}>
@@ -47,13 +58,9 @@ class Header extends React.Component {
                     {matches && (
                       <div>
                         <IconButton
-                          onClick={() => {
-                            this.setState(state => ({
-                              checked: !state.checked
-                            }));
-                          }}
+                          onClick={this.openMenu}
                         >
-                          <MenuIcon />
+                          <MenuIcon className="tab-text"/>
                         </IconButton>
                       </div>
                     )}
@@ -81,18 +88,10 @@ class Header extends React.Component {
                     <Search />
                     <Collapse in={checked}>
                       <List>
-                        <ListItem button>
-                          <ListItemIcon>
-                            <InboxIcon />
-                          </ListItemIcon>
-                          <ListItemText primary="Inbox" />
-                        </ListItem>
-                        <ListItem button>
-                          <ListItemIcon>
-                            <DraftsIcon />
-                          </ListItemIcon>
-                          <ListItemText primary="Drafts" />
-                        </ListItem>
+                        <MenuItem to={routes[0]} label="Home" />
+                        <MenuItem to={routes[1]} label="Blocks" />
+                        <MenuItem to={routes[2]} label="Transactions" />
+                        <MenuItem to={routes[3]} label="Accounts" />
                       </List>
                     </Collapse>
                   </div>

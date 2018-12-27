@@ -9,14 +9,35 @@ import SearchIcon from '@material-ui/icons/Search';
 const styles = (theme) => ({
   textField: {
     width: '100%',
-    height: 40
+    height: 40,
+    margin: theme.spacing.unit,
   },
   resize: {
-    fontSize: 12
+    fontSize: 12,
+    color: 'white',
   },
   icon: {
     width: 20,
-    height: 20
+    height: 20,
+    color: '#DFDFDF'
+  },
+  cssLabel: {
+    '&$cssFocused': {
+      color: '#DFDFDF',
+    },
+    color: '#DFDFDF',
+  },
+  cssFocused: {},
+  cssOutlinedInput: {
+    '&$cssFocused $notchedOutline': {
+      borderColor: '#DFDFDF',
+    },
+  },
+  notchedOutline: {
+    borderColor: '#DFDFDF !important'
+  },
+  iconStyle: {
+    color: '#DFDFDF',
   }
 });
 
@@ -29,23 +50,30 @@ const Search = (props) => {
         label="Search"
         InputProps={{
           classes: {
-            input: classes.resize
+            input: classes.resize,
+            root: classes.cssOutlinedInput,
+            focused: classes.cssFocused,
+            notchedOutline: classes.notchedOutline,
           },
           endAdornment: (
             <InputAdornment variant="filled" position="end">
               <IconButton onClick={() => {}}>
-                <SearchIcon className={classes.icon} />
+                <SearchIcon className={classes.icon}  />
               </IconButton>
             </InputAdornment>
           )
+        }}
+        InputLabelProps={{
+          classes: {
+            root: classes.cssLabel,
+            focused: classes.cssFocused,
+          },
+          shrink: true
         }}
         className={classes.textField}
         placeholder="Search by address, transaction hash or block number"
         margin="normal"
         variant="outlined"
-        InputLabelProps={{
-          shrink: true
-        }}
       />
     </div>
   );
