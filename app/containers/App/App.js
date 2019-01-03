@@ -60,7 +60,7 @@ const App = () => (
         <Route
           exact
           path={routes[0]}
-          component={() => <div>This is home</div>}
+          component={HomePage}
         />
         <Route path={routes[1]} component={BlocksRoute} />
         <Route path={routes[2]} component={TxRoute} />
