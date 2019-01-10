@@ -52,7 +52,7 @@ class Header extends React.Component {
               <div>
                 <div className="main">
                   <Link to={routes[0]}>
-                    <img src={Logo} className="logo" alt="logo" />
+                    {/* <img src={Logo} className="logo" alt="logo" /> */}
                   </Link>
                   <div className="tab-view">
                     {matches && (
