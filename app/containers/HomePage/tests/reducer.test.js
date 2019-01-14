@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable';
 
 import homeReducer from '../reducer';
-import { changeUsername } from '../actions';
+import { getBlocksRequest } from '../actions';
 
 describe('homeReducer', () => {
   let state;
@@ -20,6 +20,6 @@ describe('homeReducer', () => {
     const fixture = 'flexdinesh';
     const expectedResult = state.set('username', fixture);
 
-    expect(homeReducer(state, changeUsername(fixture))).toEqual(expectedResult);
+    expect(homeReducer(state, getBlocksRequest(fixture))).toEqual(expectedResult);
   });
 });

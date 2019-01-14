@@ -18,9 +18,14 @@ import PriceGraph from '../../components/organisms/PriceGraph';
 import './style.scss';
 
 class HomePage extends React.Component {
+  componentDidMount() {
+    this.props.getBlocks();
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes, blocks } = this.props;
+    console.log('ad', blocks);
+    
     return (
       <article>
         <Helmet>
@@ -41,10 +46,10 @@ class HomePage extends React.Component {
 
             <Grid container spacing={24}>
               <Grid item xs={12} sm={6}>
-                <BlockList />
+                <BlockList blocks={blocks} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <BlockList />
+                <BlockList blocks={[]} />
               </Grid>
             </Grid>
           </div>
@@ -54,7 +59,7 @@ class HomePage extends React.Component {
   }
 }
 
-const styles = (theme) => {
+const styles = theme => {
   const padding = theme.spacing.unit * 2;
   return {
     root: {

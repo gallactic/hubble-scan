@@ -3,26 +3,25 @@
  */
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from 'containers/App/actions';
+import { GET_BLOCKS_REQUEST } from './constants';
+import { getBlocksSuccess } from './actions';
 
 import request from 'utils/request';
-import { makeSelectUsername } from 'containers/HomePage/selectors';
 
-/**
- * Github repos request/response handler
- */
-export function* getRepos() {
-  // Select username from store
-  const username = yield select(makeSelectUsername());
-  const requestURL = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
+export function* getBlocks() {
+  const requestURL = `http://157.230.32.23:50502/Blocks/3901/3905`;
 
   try {
     // Call our request helper (see 'utils/request')
-    const repos = yield call(request, requestURL);
-    yield put(reposLoaded(repos, username));
+    const blocks = yield call(request, requestURL);
+    if (blocks) {
+      yield put(getBlocksSuccess(blocks.BlockMeta));
+    } else {
+      yield put(getBlocksSuccess([]));
+    }
   } catch (err) {
-    yield put(repoLoadingError(err));
+    console.log(err);
+    yield put(getBlocksSuccess([]));
   }
 }
 
@@ -34,5 +33,5 @@ export default function* githubData() {
   // By using `takeLatest` only the result of the latest API call is applied.
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
-  yield takeLatest(LOAD_REPOS, getRepos);
+  yield takeLatest(GET_BLOCKS_REQUEST, getBlocks);
 }

@@ -7,92 +7,28 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 
 import './style.scss';
 
-const BlockListWidget = ({ classes, match }) => {
-  const blockList = [
-    {
-      blockNumber: 6443918,
-      txSize: 2,
+const BlockList = ({ classes, blocks, match }) => {
+  const blockList = blocks.map(item => {
+    const block = item.header;
+    return {
+      blockNumber: block.height,
+      txSize: block.num_txs,
       size: '811 bytes',
-      time: '2 minutes ago',
+      time: moment(block.time).fromNow(),
       validator: {
         name: 'Walter Karshat',
-        address: '0x0cd62a4E72E4D2F489773ffaEBF687952FC65bc3'
-      },
-      reward: 2.000021
-    },
-    {
-      blockNumber: 6443919,
-      txSize: 2,
-      size: '811 bytes',
-      time: '2 minutes ago',
-      validator: {
-        name: 'Walter Karshat',
-        address: '0x0cd62a4E72E4D2F489773ffaEBF687952FC65bc3'
-      },
-      reward: 2.000021
-    },
-    {
-      blockNumber: 6445297,
-      txSize: 2,
-      size: '811 bytes',
-      time: '2 minutes ago',
-      validator: {
-        name: 'Walter Karshat',
-        address: '0x0cd62a4E72E4D2F489773ffaEBF687952FC65bc3'
-      },
-      reward: 2.000021
-    },
-    {
-      blockNumber: 6443920,
-      txSize: 2,
-      size: '811 bytes',
-      time: '2 minutes ago',
-      validator: {
-        name: 'Walter Karshat',
-        address: '0x0cd62a4E72E4D2F489773ffaEBF687952FC65bc3'
-      },
-      reward: 2.000021
-    },
-    {
-      blockNumber: 6443921,
-      txSize: 2,
-      size: '811 bytes',
-      time: '2 minutes ago',
-      validator: {
-        name: 'Walter Karshat',
-        address: '0x0cd62a4E72E4D2F489773ffaEBF687952FC65bc3'
-      },
-      reward: 2.000021
-    },
-    {
-      blockNumber: 6443922,
-      txSize: 2,
-      size: '811 bytes',
-      time: '2 minutes ago',
-      validator: {
-        name: 'Walter Karshat',
-        address: '0x0cd62a4E72E4D2F489773ffaEBF687952FC65bc3'
-      },
-      reward: 2.000021
-    },
-    {
-      blockNumber: 6444568,
-      txSize: 0,
-      size: '588 bytes',
-      time: 'an hour ago',
-      validator: {
-        name: 'Adam Kagy',
-        address: '0x7bd556b838a9e330a815a53ef39e04ff2fdf2392'
-      },
-      reward: 2
-    }
-  ];
+        address: block.validators_hash
+      }
+    };
+  });
+
   return (
     <List className={classes.root}>
-      {blockList.map((block) => (
+      {blockList.map(block => (
         <Card key={block.blockNumber} style={{ marginBottom: 10 }}>
           <ListItem>
             <div />
@@ -126,7 +62,7 @@ const BlockListWidget = ({ classes, match }) => {
   );
 };
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     // width: '100%',
     // backgroundColor: theme.palette.background.paper
@@ -136,8 +72,13 @@ const styles = (theme) => ({
   }
 });
 
-BlockListWidget.propTypes = {
-  classes: PropTypes.object.isRequired
+BlockList.propTypes = {
+  classes: PropTypes.object.isRequired,
+  blocks: PropTypes.array,
+  match: PropTypes.string
+};
+BlockList.defaultProps = {
+  blocks: []
 };
 
-export default withStyles(styles)(BlockListWidget);
+export default withStyles(styles)(BlockList);

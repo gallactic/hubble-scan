@@ -15,18 +15,17 @@
  *    }
  */
 
-import { CHANGE_USERNAME } from './constants';
+import { GET_BLOCKS_REQUEST, GET_BLOCKS_SUCCESS } from './constants';
 
-/**
- * Changes the input field of the form
- *
- * @param  {name} name The new text of the input field
- *
- * @return {object}    An action object with a type of CHANGE_USERNAME
- */
-export function changeUsername(name) {
+export function getBlocksRequest() {
   return {
-    type: CHANGE_USERNAME,
-    name
+    type: GET_BLOCKS_REQUEST,
+  };
+}
+
+export function getBlocksSuccess(blocks) {
+  return {
+    type: GET_BLOCKS_SUCCESS,
+    data: blocks
   };
 }

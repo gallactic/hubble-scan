@@ -1,17 +1,17 @@
-import { CHANGE_USERNAME } from '../constants';
+import { GET_BLOCKS_REQUEST } from '../constants';
 
-import { changeUsername } from '../actions';
+import { getBlocksRequest } from '../actions';
 
 describe('Home Actions', () => {
-  describe('changeUsername', () => {
+  describe('getBlocksRequest', () => {
     it('should return the correct type and the passed name', () => {
       const fixture = 'Max';
       const expectedResult = {
-        type: CHANGE_USERNAME,
+        type: GET_BLOCKS_REQUEST,
         name: fixture
       };
 
-      expect(changeUsername(fixture)).toEqual(expectedResult);
+      expect(getBlocksRequest(fixture)).toEqual(expectedResult);
     });
   });
 });

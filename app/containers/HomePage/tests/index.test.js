@@ -8,7 +8,7 @@ import { shallow, mount } from 'enzyme';
 import ReposList from 'components/ReposList';
 import HomePage from '../HomePage';
 import { mapDispatchToProps } from '../index';
-import { changeUsername } from '../actions';
+import { getBlocksRequest } from '../actions';
 import { loadRepos } from '../../App/actions';
 
 describe('<HomePage />', () => {
@@ -64,7 +64,7 @@ describe('<HomePage />', () => {
         const result = mapDispatchToProps(dispatch);
         const username = 'flexdinesh';
         result.onChangeUsername({ target: { value: username } });
-        expect(dispatch).toHaveBeenCalledWith(changeUsername(username));
+        expect(dispatch).toHaveBeenCalledWith(getBlocksRequest(username));
       });
     });
 

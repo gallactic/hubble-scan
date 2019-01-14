@@ -11,18 +11,18 @@
  */
 import { fromJS } from 'immutable';
 
-import { CHANGE_USERNAME } from './constants';
+import { GET_BLOCKS_SUCCESS } from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
-  username: ''
+  blocks: []
 });
 
 function homeReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_USERNAME:
-      // Delete prefixed '@' from the github username
-      return state.set('username', action.name.replace(/@/gi, ''));
+    case GET_BLOCKS_SUCCESS:
+      console.log('action', action);
+      return state.set('blocks', action.data);
     default:
       return state;
   }
