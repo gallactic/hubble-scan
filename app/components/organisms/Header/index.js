@@ -44,6 +44,8 @@ class Header extends React.Component {
   render() {
     const { location, routes } = this.props;
     const { checked } = this.state;
+    const locationArray = location.pathname.split('/');
+    const currentLocation = `/${locationArray[1]}`;
     return (
       <div>
         <AppBar position="static">
@@ -52,7 +54,7 @@ class Header extends React.Component {
               <div>
                 <div className="main">
                   <Link to={routes[0]}>
-                    {/* <img src={Logo} className="logo" alt="logo" /> */}
+                    <img src={Logo} className="logo" alt="logo" />
                   </Link>
                   <div className="tab-view">
                     {matches && (
@@ -70,7 +72,7 @@ class Header extends React.Component {
                           <Search />
                         </div>
                         <Tabs
-                          value={routes.indexOf(location.pathname)}
+                          value={routes.indexOf(currentLocation)}
                           onChange={() => {}}
                         >
                           <TabView to={routes[0]} label="Home" />

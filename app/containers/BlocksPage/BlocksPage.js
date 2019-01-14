@@ -5,17 +5,20 @@
  */
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+
+import BlockList from '../../components/organisms/BlockList';
 import './style.scss';
 
-export default class BlocksPage extends React.Component {
+class BlocksPage extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
   shouldComponentUpdate() {
     return false;
   }
 
   render() {
-    const { match } = this.props;
+    const { match, classes } = this.props;
     const blockId = '126371878';
     return (
       <div className="blocks-page">
@@ -23,11 +26,16 @@ export default class BlocksPage extends React.Component {
           <title>Account Page</title>
           <meta name="description" content="Blocks Page" />
         </Helmet>
-        <p>Block List</p>
-        <div>
-          <Link to={`${match.url}/${blockId}`}>{blockId}</Link>
-        </div>
+        <BlockList />
       </div>
     );
   }
 }
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1
+  }
+});
+
+export default withStyles(styles)(BlocksPage);

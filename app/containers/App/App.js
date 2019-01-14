@@ -9,6 +9,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
 
 import HomePage from 'containers/HomePage/Loadable';
 // import FeaturePage from 'containers/FeaturePage/Loadable';
@@ -56,17 +57,17 @@ const App = () => (
     </Helmet>
     <Header routes={routes} />
     <div className="app-page">
-      <Switch>
-        <Route
-          exact
-          path={routes[0]}
-          component={HomePage}
-        />
-        <Route path={routes[1]} component={BlocksRoute} />
-        <Route path={routes[2]} component={TxRoute} />
-        <Route path={routes[3]} component={AccountRoute} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <Grid container justify="center">
+        <Grid item xs={10}>
+          <Switch>
+            <Route exact path={routes[0]} component={HomePage} />
+            <Route path={routes[1]} component={BlocksRoute} />
+            <Route path={routes[2]} component={TxRoute} />
+            <Route path={routes[3]} component={AccountRoute} />
+            <Route component={NotFoundPage} />
+          </Switch>
+        </Grid>
+      </Grid>
     </div>
     <Footer />
   </div>

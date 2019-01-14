@@ -1,1 +1,1 @@
-export { default } from './BlockList';
+export { default } from './BlockListWidget';

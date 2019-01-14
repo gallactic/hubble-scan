@@ -18,7 +18,7 @@ import PriceGraph from '../../components/organisms/PriceGraph';
 import './style.scss';
 
 class HomePage extends React.Component {
-  
+
   render() {
     const { classes } = this.props;
     return (
