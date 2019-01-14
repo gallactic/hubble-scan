@@ -9,7 +9,7 @@
  * case YOUR_ACTION_CONSTANT:
  *   return state.set('yourStateVariable', true);
  */
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 
 import { GET_BLOCKS_SUCCESS } from './constants';
 
@@ -21,7 +21,6 @@ const initialState = fromJS({
 function homeReducer(state = initialState, action) {
   switch (action.type) {
     case GET_BLOCKS_SUCCESS:
-      console.log('action', action);
       return state.set('blocks', action.data);
     default:
       return state;

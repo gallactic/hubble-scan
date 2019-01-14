@@ -6,13 +6,15 @@ import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
+import MiddleTruncate from 'react-middle-truncate';
 import moment from 'moment';
 
 import './style.scss';
 
 const BlockList = ({ classes, blocks, match }) => {
-  const blockList = blocks.map(item => {
+  console.log('BlockList blocks', blocks);
+
+  const blockList = blocks.map((item) => {
     const block = item.header;
     return {
       blockNumber: block.height,
@@ -28,7 +30,7 @@ const BlockList = ({ classes, blocks, match }) => {
 
   return (
     <List className={classes.root}>
-      {blockList.map(block => (
+      {blockList.map((block) => (
         <Card key={block.blockNumber} style={{ marginBottom: 10 }}>
           <ListItem>
             <div />
@@ -40,18 +42,12 @@ const BlockList = ({ classes, blocks, match }) => {
               }
               secondary={
                 <React.Fragment>
-                  {`${block.txSize} transactions ${block.size} ${block.time}`}
+                  {`${block.txSize} transactions ${block.time}`}
                   <br />
                   {'Validator '}
-                  <Typography
-                    component="span"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    {`${block.validator.name} (${block.validator.address})`}
-                  </Typography>
+                  <MiddleTruncate text={block.validator.address} />
                   <br />
-                  {`Reward ${block.reward} GTX`}
+                  {/* {`Reward ${block.reward} GTX`} */}
                 </React.Fragment>
               }
             />
