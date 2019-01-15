@@ -14,3 +14,4 @@ export const GET_INFO_SUCCESS = 'hubblescan/Home/GET_INFO_SUCCESS';
 
 export const GET_BLOCKS_REQUEST = 'hubblescan/Home/GET_BLOCKS_REQUEST';
 export const GET_BLOCKS_SUCCESS = 'hubblescan/Home/GET_BLOCKS_SUCCESS';
+export const GET_BLOCK_INFO_SUCCESS = 'hubblescan/Home/GET_BLOCK_INFO_SUCCESS';

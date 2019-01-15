@@ -25,7 +25,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { classes, blocks, infoData } = this.props;
+    const { classes, blocks, infoData, blockInfo } = this.props;
     const info = [
       {
         name: 'Chain Name',
@@ -45,7 +45,7 @@ class HomePage extends React.Component {
         value: moment(infoData.genesisTime).format('h:mm:ss a, Do MMM YYYY')
       }
     ];
-    const blockInfo = [
+    const blockInfoData = [
       {
         name: 'Accounts',
         value: infoData.accounts ? infoData.accounts.length : 0
@@ -56,13 +56,15 @@ class HomePage extends React.Component {
       },
       {
         name: 'Latest Block',
-        value: infoData.latestBlockNumber
+        value: blockInfo.latestBlockNumber
       },
       {
         name: 'Latest Block Time',
-        value: moment(infoData.latestBlockTime / 1000000).format(
-          'h:mm:ss a, Do MMM YYYY'
-        )
+        value: blockInfo.latestBlockTime
+          ? moment(blockInfo.latestBlockTime / 1000000).format(
+              'h:mm:ss a, Do MMM YYYY'
+            )
+          : ''
       }
     ];
     return (
@@ -79,7 +81,7 @@ class HomePage extends React.Component {
                 <MarketInfo data={info} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <MarketInfo data={blockInfo} />
+                <MarketInfo data={blockInfoData} />
               </Grid>
             </Grid>
 

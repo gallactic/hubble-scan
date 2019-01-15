@@ -4,12 +4,28 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { GET_BLOCKS_REQUEST, GET_INFO_REQUEST } from './constants';
-import { getBlocksSuccess, getInfoSuccess } from './actions';
+import {
+  getBlocksSuccess,
+  getInfoSuccess,
+  getBlockInfoSuccess
+} from './actions';
 
 import request from 'utils/request';
 
 export function* getBlocks() {
-  const requestURL = `http://157.230.32.23:50502/Blocks/3901/3905`;
+  const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
+  const result = {};
+  let startBlock = 1;
+  let endBlock = 5;
+  if (statusInfo) {
+    result.latestBlockHash = statusInfo.LatestBlockHash;
+    result.latestBlockNumber = statusInfo.LatestBlockHeight;
+    result.latestBlockTime = statusInfo.LatestBlockTime;
+    endBlock = statusInfo.LatestBlockHeight;
+    startBlock = endBlock - 5;
+  }
+  yield put(getBlockInfoSuccess(result));
+  const requestURL = `http://157.230.32.23:50502/Blocks/${startBlock}/${endBlock}`;
   try {
     // Call our request helper (see 'utils/request')
     const blocks = yield call(request, requestURL);
@@ -48,21 +64,14 @@ export function* getInfo() {
       result.accounts = genesisInfo.Genesis.accounts;
       result.validators = genesisInfo.Genesis.validators;
     }
-    const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
-    if (statusInfo) {
-      result.latestBlockHash = statusInfo.LatestBlockHash;
-      result.genesisHash = statusInfo.GenesisHash;
-      result.latestBlockNumber = statusInfo.LatestBlockHeight;
-      result.latestBlockTime = statusInfo.LatestBlockTime;
-    }
     const chainInfo = yield call(request, 'http://157.230.32.23:50502/ChainID');
     if (chainInfo) {
       result.chainName = chainInfo.ChainName;
       result.chainId = chainInfo.ChainId;
+      result.genesisHash = chainInfo.GenesisHash;
     }
     yield put(getInfoSuccess(result));
   } catch (err) {
-    console.log(err);
     yield put(getInfoSuccess({}));
   }
 }

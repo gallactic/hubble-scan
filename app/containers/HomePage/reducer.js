@@ -11,12 +11,17 @@
  */
 import { fromJS } from 'immutable';
 
-import { GET_BLOCKS_SUCCESS, GET_INFO_SUCCESS } from './constants';
+import {
+  GET_BLOCKS_SUCCESS,
+  GET_INFO_SUCCESS,
+  GET_BLOCK_INFO_SUCCESS
+} from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
   blocks: [],
-  infoData: {}
+  infoData: {},
+  blockInfo: {}
 });
 
 function homeReducer(state = initialState, action) {
@@ -25,6 +30,8 @@ function homeReducer(state = initialState, action) {
       return state.set('blocks', action.data);
     case GET_INFO_SUCCESS:
       return state.set('infoData', action.data);
+    case GET_BLOCK_INFO_SUCCESS:
+      return state.set('blockInfo', action.data);
     default:
       return state;
   }

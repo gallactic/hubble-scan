@@ -19,7 +19,8 @@ import {
   GET_BLOCKS_REQUEST,
   GET_BLOCKS_SUCCESS,
   GET_INFO_REQUEST,
-  GET_INFO_SUCCESS
+  GET_INFO_SUCCESS,
+  GET_BLOCK_INFO_SUCCESS
 } from './constants';
 
 export function getBlocksRequest() {
@@ -44,6 +45,13 @@ export function getInfoRequest() {
 export function getInfoSuccess(data) {
   return {
     type: GET_INFO_SUCCESS,
+    data
+  };
+}
+
+export function getBlockInfoSuccess(data) {
+  return {
+    type: GET_BLOCK_INFO_SUCCESS,
     data
   };
 }
