@@ -32,8 +32,7 @@ const BlockList = ({ classes, blocks, match }) => {
     <List className={classes.root}>
       {blockList.map((block) => (
         <Card key={block.blockNumber} style={{ marginBottom: 10 }}>
-          <ListItem>
-            <div />
+          <ListItem >
             <ListItemText
               primary={
                 <Link to={`blocks/${block.blockNumber}`}>
@@ -41,14 +40,13 @@ const BlockList = ({ classes, blocks, match }) => {
                 </Link>
               }
               secondary={
-                <React.Fragment>
+                <div >
                   {`${block.txSize} transactions ${block.time}`}
                   <br />
                   {'Validator '}
                   <MiddleTruncate text={block.validator.address} />
-                  <br />
                   {/* {`Reward ${block.reward} GTX`} */}
-                </React.Fragment>
+                </div>
               }
             />
           </ListItem>
@@ -58,7 +56,7 @@ const BlockList = ({ classes, blocks, match }) => {
   );
 };
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     // width: '100%',
     // backgroundColor: theme.palette.background.paper

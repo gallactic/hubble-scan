@@ -20,9 +20,20 @@ import './style.scss';
 
 class HomePage extends React.Component {
   componentDidMount() {
-    this.props.getBlocks();
     this.props.getInfo();
+    this.props.getBlocks();
+    this.intervalId = setInterval(this.timer, 5000);
   }
+
+  componentWillUnmount() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  timer = () => {
+    this.props.getBlocks();
+  };
 
   render() {
     const { classes, blocks, infoData, blockInfo } = this.props;

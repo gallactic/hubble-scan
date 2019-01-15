@@ -11,7 +11,7 @@ import BlockList from '../BlockList';
 
 import './style.scss';
 
-const BlockListWidget = ({ classes, match, blocks}) => {
+const BlockListWidget = ({ classes, match, blocks }) => {
   return (
     <Card raised>
       <CardActions>
@@ -25,13 +25,13 @@ const BlockListWidget = ({ classes, match, blocks}) => {
         </Link>
       </CardActions>
       <CardContent>
-        <BlockList blocks={blocks}/>
+        <BlockList blocks={blocks} />
       </CardContent>
     </Card>
   );
 };
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper
