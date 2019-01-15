@@ -38,6 +38,7 @@ class HomePage extends React.Component {
       {
         name: 'Genesis Hash',
         value: infoData.genesisHash,
+        trunc: true
       },
       {
         name: 'Genesis Time',

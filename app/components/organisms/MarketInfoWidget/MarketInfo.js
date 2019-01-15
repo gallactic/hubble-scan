@@ -3,7 +3,30 @@ import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import MiddleTruncate from 'react-middle-truncate';
 import Grid from '@material-ui/core/Grid';
+
+const InfoView = ({ data }) => {
+  return (
+    <div>
+      <Typography className="primary-text" component="p">
+        {data.name}
+      </Typography>
+      <Typography
+        className="secondary-text"
+        gutterBottom
+        variant="h6"
+        component="h6"
+      >
+        {data.trunc ? (
+          <MiddleTruncate className="secondary-text" text={data.value} />
+        ) : (
+          data.value
+        )}
+      </Typography>
+    </div>
+  );
+};
 
 const MarketInfo = ({ data, classes }) => {
   const leftTop = data[0];
@@ -14,52 +37,12 @@ const MarketInfo = ({ data, classes }) => {
     <Card className={classes.card}>
       <Grid container>
         <Grid item xs={12} sm={6}>
-          <Typography className="primary-text" component="p">
-            {leftTop.name}
-          </Typography>
-          <Typography
-            className="secondary-text"
-            gutterBottom
-            variant="h6"
-            component="h6"
-          >
-            {leftTop.value}
-          </Typography>
-          <Typography className="primary-text" component="p">
-            {leftBottom.name}
-          </Typography>
-          <Typography
-            className="secondary-text"
-            gutterBottom
-            variant="h6"
-            component="h6"
-          >
-            {leftBottom.value}
-          </Typography>
+          <InfoView data={leftTop} />
+          <InfoView data={leftBottom} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography className="primary-text" component="p">
-            {rightTop.name}
-          </Typography>
-          <Typography
-            className="secondary-text"
-            gutterBottom
-            variant="h6"
-            component="h6"
-          >
-            {rightTop.value}
-          </Typography>
-          <Typography className="primary-text" component="p">
-            {rightBottom.name}
-          </Typography>
-          <Typography
-            className="secondary-text"
-            gutterBottom
-            variant="h6"
-            component="h6"
-          >
-            {rightBottom.value}
-          </Typography>
+          <InfoView data={rightTop} />
+          <InfoView data={rightBottom} />
         </Grid>
       </Grid>
     </Card>
