@@ -78,7 +78,7 @@ class Header extends React.Component {
                           <TabView to={routes[0]} label="Home" />
                           <TabView to={routes[1]} label="Blocks" />
                           <TabView to={routes[2]} label="Transactions" />
-                          <TabView to={routes[3]} label="Accounts" />
+                          <TabView to={routes[3]} label="Validators" />
                         </Tabs>
                       </div>
                     )}
