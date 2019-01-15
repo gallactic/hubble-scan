@@ -5,56 +5,60 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-const MarketInfo = ({ classes }) => {
+const MarketInfo = ({ data, classes }) => {
+  const leftTop = data[0];
+  const leftBottom = data[1];
+  const rightTop = data[2];
+  const rightBottom = data[3];
   return (
     <Card className={classes.card}>
       <Grid container>
         <Grid item xs={12} sm={6}>
           <Typography className="primary-text" component="p">
-            Last Block
+            {leftTop.name}
           </Typography>
           <Typography
             className="secondary-text"
             gutterBottom
-            variant="h5"
-            component="h5"
+            variant="h6"
+            component="h6"
           >
-            6996392
+            {leftTop.value}
           </Typography>
           <Typography className="primary-text" component="p">
-            Transactions
+            {leftBottom.name}
           </Typography>
           <Typography
             className="secondary-text"
             gutterBottom
-            variant="h5"
-            component="h5"
+            variant="h6"
+            component="h6"
           >
-            369.31 M (4.3 TPS)
+            {leftBottom.value}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography className="primary-text" component="p">
-            Price
+            {rightTop.name}
           </Typography>
           <Typography
             className="secondary-text"
             gutterBottom
-            variant="h5"
-            component="h5"
+            variant="h6"
+            component="h6"
           >
-            $144.88 USD
+            {rightTop.value}
           </Typography>
           <Typography className="primary-text" component="p">
-            Market Cap
+            {rightBottom.name}
           </Typography>
           <Typography
             className="secondary-text"
             gutterBottom
-            variant="h5"
-            component="h5"
+            variant="h6"
+            component="h6"
           >
-            $15,088,674 USD
+            {rightBottom.value}
           </Typography>
         </Grid>
       </Grid>
@@ -63,7 +67,8 @@ const MarketInfo = ({ classes }) => {
 };
 
 MarketInfo.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired
 };
 
 const styles = () => {

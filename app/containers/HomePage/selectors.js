@@ -11,7 +11,14 @@ const selectBlocks = () => createSelector(
   (homeState) => homeState.get('blocks')
 );
 
+const selectInfoData = () => createSelector(
+  selectHome,
+  (homeState) => homeState.get('infoData')
+);
+
+
 export {
   selectHome,
   selectBlocks,
+  selectInfoData
 };

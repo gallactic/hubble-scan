@@ -15,11 +15,16 @@
  *    }
  */
 
-import { GET_BLOCKS_REQUEST, GET_BLOCKS_SUCCESS } from './constants';
+import {
+  GET_BLOCKS_REQUEST,
+  GET_BLOCKS_SUCCESS,
+  GET_INFO_REQUEST,
+  GET_INFO_SUCCESS
+} from './constants';
 
 export function getBlocksRequest() {
   return {
-    type: GET_BLOCKS_REQUEST,
+    type: GET_BLOCKS_REQUEST
   };
 }
 
@@ -27,5 +32,18 @@ export function getBlocksSuccess(blocks) {
   return {
     type: GET_BLOCKS_SUCCESS,
     data: blocks
+  };
+}
+
+export function getInfoRequest() {
+  return {
+    type: GET_INFO_REQUEST
+  };
+}
+
+export function getInfoSuccess(data) {
+  return {
+    type: GET_INFO_SUCCESS,
+    data
   };
 }

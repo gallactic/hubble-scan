@@ -9,14 +9,15 @@ import {
   makeSelectError
 } from 'containers/App/selectors';
 import { loadRepos } from '../App/actions';
-import { getBlocksRequest } from './actions';
-import { selectBlocks } from './selectors';
+import { getBlocksRequest, getInfoRequest } from './actions';
+import { selectBlocks, selectInfoData } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import HomePage from './HomePage';
 
 const mapDispatchToProps = (dispatch) => ({
   getBlocks: () => dispatch(getBlocksRequest()),
+  getInfo: () => dispatch(getInfoRequest()),
   onSubmitForm: (evt) => {
     if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     dispatch(loadRepos());
@@ -26,6 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
   blocks: selectBlocks(),
+  infoData: selectInfoData(),
   loading: makeSelectLoading(),
   error: makeSelectError()
 });

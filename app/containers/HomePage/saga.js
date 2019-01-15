@@ -3,14 +3,13 @@
  */
 
 import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { GET_BLOCKS_REQUEST } from './constants';
-import { getBlocksSuccess } from './actions';
+import { GET_BLOCKS_REQUEST, GET_INFO_REQUEST } from './constants';
+import { getBlocksSuccess, getInfoSuccess } from './actions';
 
 import request from 'utils/request';
 
 export function* getBlocks() {
   const requestURL = `http://157.230.32.23:50502/Blocks/3901/3905`;
-
   try {
     // Call our request helper (see 'utils/request')
     const blocks = yield call(request, requestURL);
@@ -26,12 +25,52 @@ export function* getBlocks() {
 }
 
 /**
+ * result = {
+        chainName: genesisInfo.chainName,
+        chainId: '',
+        genesisTime: genesisInfo.genesisTime,
+        genesisHash: '',
+        latestBlockNumber: '',
+        latestBlockTime: '',
+        accounts: genesisInfo.accounts.length,
+        validators: genesisInfo.validators.length
+      };
+ */
+export function* getInfo() {
+  try {
+    const genesisInfo = yield call(
+      request,
+      'http://157.230.32.23:50502/Genesis'
+    );
+    const result = {};
+    if (genesisInfo && genesisInfo.Genesis) {
+      result.genesisTime = genesisInfo.Genesis.genesisTime;
+      result.accounts = genesisInfo.Genesis.accounts;
+      result.validators = genesisInfo.Genesis.validators;
+    }
+    const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
+    if (statusInfo) {
+      result.latestBlockHash = statusInfo.LatestBlockHash;
+      result.genesisHash = statusInfo.GenesisHash;
+      result.latestBlockNumber = statusInfo.LatestBlockHeight;
+      result.latestBlockTime = statusInfo.LatestBlockTime;
+    }
+    const chainInfo = yield call(request, 'http://157.230.32.23:50502/ChainID');
+    if (chainInfo) {
+      result.chainName = chainInfo.ChainName;
+      result.chainId = chainInfo.ChainId;
+    }
+    yield put(getInfoSuccess(result));
+  } catch (err) {
+    console.log(err);
+    yield put(getInfoSuccess({}));
+  }
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 export default function* githubData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
   yield takeLatest(GET_BLOCKS_REQUEST, getBlocks);
+  yield takeLatest(GET_INFO_REQUEST, getInfo);
 }

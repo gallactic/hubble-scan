@@ -10,22 +10,60 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import moment from 'moment';
 import Announcement from '../../components/molecules/Announcement';
 import BlockList from '../../components/organisms/BlockListWidget';
 import MarketInfo from '../../components/organisms/MarketInfoWidget';
-import PriceGraph from '../../components/organisms/PriceGraph';
+// import PriceGraph from '../../components/organisms/PriceGraph';
 
 import './style.scss';
 
 class HomePage extends React.Component {
   componentDidMount() {
     this.props.getBlocks();
+    this.props.getInfo();
   }
 
   render() {
-    const { classes, blocks } = this.props;
-    console.log('ad', blocks);
-    
+    const { classes, blocks, infoData } = this.props;
+    const info = [
+      {
+        name: 'Chain Name',
+        value: infoData.chainName
+      },
+      {
+        name: 'Chain Id',
+        value: infoData.chainId
+      },
+      {
+        name: 'Genesis Hash',
+        value: infoData.genesisHash,
+      },
+      {
+        name: 'Genesis Time',
+        value: moment(infoData.genesisTime).format('h:mm:ss a, Do MMM YYYY')
+      }
+    ];
+    const blockInfo = [
+      {
+        name: 'Accounts',
+        value: infoData.accounts ? infoData.accounts.length : 0
+      },
+      {
+        name: 'Validators',
+        value: infoData.validators ? infoData.validators.length : 0
+      },
+      {
+        name: 'Latest Block',
+        value: infoData.latestBlockNumber
+      },
+      {
+        name: 'Latest Block Time',
+        value: moment(infoData.latestBlockTime / 1000000).format(
+          'h:mm:ss a, Do MMM YYYY'
+        )
+      }
+    ];
     return (
       <article>
         <Helmet>
@@ -37,10 +75,10 @@ class HomePage extends React.Component {
             <Announcement />
             <Grid container spacing={24}>
               <Grid item xs={12} sm={6}>
-                <MarketInfo />
+                <MarketInfo data={info} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <PriceGraph />
+                <MarketInfo data={blockInfo} />
               </Grid>
             </Grid>
 
