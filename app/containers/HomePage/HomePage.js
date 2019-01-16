@@ -56,6 +56,11 @@ class HomePage extends React.Component {
         value: moment(infoData.genesisTime).format('h:mm:ss a, Do MMM YYYY')
       }
     ];
+    const blockTime = blockInfo.latestBlockTime
+      ? moment(blockInfo.latestBlockTime / 1000000).format(
+          'h:mm:ss a, Do MMM YYYY'
+        )
+      : '';
     const blockInfoData = [
       {
         name: 'Accounts',
@@ -71,11 +76,7 @@ class HomePage extends React.Component {
       },
       {
         name: 'Latest Block Time',
-        value: blockInfo.latestBlockTime
-          ? moment(blockInfo.latestBlockTime / 1000000).format(
-              'h:mm:ss a, Do MMM YYYY'
-            )
-          : ''
+        value: blockTime
       }
     ];
     return (

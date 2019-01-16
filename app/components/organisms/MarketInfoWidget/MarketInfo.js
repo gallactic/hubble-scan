@@ -21,29 +21,33 @@ const InfoView = ({ data }) => {
         {data.trunc ? (
           <MiddleTruncate className="secondary-text" text={data.value} />
         ) : (
-          data.value
+          <div className="secondary-text">{data.value}</div>
         )}
       </Typography>
     </div>
   );
 };
 
+const GridContent = ({ data }) => {
+  const viewMap = [];
+  for (let i = 0; i < data.length; i += 2) {
+    const first = data[i];
+    const second = data[i + 1];
+    viewMap.push(
+      <Grid item xs={12} sm={6}>
+        <InfoView data={first} />
+        {second ? <InfoView data={second} /> : <div />}
+      </Grid>
+    );
+  }
+  return viewMap;
+};
+
 const MarketInfo = ({ data, classes }) => {
-  const leftTop = data[0];
-  const leftBottom = data[1];
-  const rightTop = data[2];
-  const rightBottom = data[3];
   return (
     <Card className={classes.card}>
       <Grid container>
-        <Grid item xs={12} sm={6}>
-          <InfoView data={leftTop} />
-          <InfoView data={leftBottom} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <InfoView data={rightTop} />
-          <InfoView data={rightBottom} />
-        </Grid>
+        <GridContent data={data} />
       </Grid>
     </Card>
   );
