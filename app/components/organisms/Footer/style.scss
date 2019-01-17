@@ -1,0 +1,27 @@
+footer {
+  display: flex;
+  justify-content: space-between;
+  background-color: #303f9f;
+  padding: 3em 0;
+  border-top: 1px solid #666;
+
+  a {
+    color: #6cc0e5;
+
+    &:hover {
+      color: #6cc0e5;
+    }
+  }
+}
+.gallactic-logo {
+  width: 200px;
+}
+.gallactic-title {
+  font-size: 12px;
+  padding-top: 10px;
+  color: white;
+}
+
+.link {
+  color: #6cc0e5;
+}
