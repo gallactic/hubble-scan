@@ -12,7 +12,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper';
 import TableRow from '@material-ui/core/TableRow';
-import TableFooter from '@material-ui/core/TableFooter';
 import TableHead from '@material-ui/core/TableHead';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -37,6 +36,15 @@ class BlockDetailPage extends React.Component {
     const blockId = match.params.id;
     this.props.getBlocks(blockId);
     this.props.getBlockTx(blockId);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      const { match } = this.props;
+      const blockId = match.params.id;
+      this.props.getBlocks(blockId);
+      this.props.getBlockTx(blockId);
+    }
   }
 
   renderBlock = data => (
