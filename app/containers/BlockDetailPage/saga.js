@@ -14,7 +14,23 @@ export function* getBlockDetail({ data }) {
     try {
       const result = yield call(request, requestURL);
       if (result && result.BlockMeta) {
-        yield put(getBlockSuccess(result.BlockMeta));
+        const { header, block_id } = result.BlockMeta;
+        const {
+          num_txs,
+          time,
+          last_block_id,
+          validators_hash,
+          consensus_hash
+        } = header;
+        const blockInfo = {
+          blockHash: block_id.hash,
+          time,
+          numTxs: num_txs,
+          lastBlockHash: last_block_id.hash,
+          validatorHash: validators_hash,
+          consensusHash: consensus_hash
+        };
+        yield put(getBlockSuccess(blockInfo));
       } else {
         yield put(getBlockError());
       }

@@ -6,63 +6,85 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import Grid from '@material-ui/core/Grid';
-import MarketInfo from '../../components/organisms/MarketInfoWidget';
+import PropTypes from 'prop-types';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import Paper from '@material-ui/core/Paper';
+import TableRow from '@material-ui/core/TableRow';
+import TableHead from '@material-ui/core/TableHead';
+import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 
 import './style.scss';
 
-export default class BlockDetailPage extends React.Component {
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    overflowX: 'auto'
+  },
+  table: {
+    minWidth: 700
+  }
+});
+
+class BlockDetailPage extends React.Component {
   componentDidMount() {
     const { match } = this.props;
     const blockId = match.params.id;
-    console.log(blockId);
     this.props.getBlocks(blockId);
   }
 
+  renderBlock = data => (
+    <TableRow key={data.name}>
+      <TableCell component="th" scope="row">
+        {data.name}
+      </TableCell>
+      <TableCell>
+        {data.redirectTo ? (
+          <Link to={`${data.redirectTo}`}>{data.value}</Link>
+        ) : (
+          data.value
+        )}
+      </TableCell>
+    </TableRow>
+  );
+
   render() {
-    const { match, block } = this.props;
-    console.log('BlockDetailPage', block);
+    const { match, block, classes } = this.props;
+
+    if (!block) {
+      return null;
+    }
+    const blockId = match.params.id;
+    const previousBlockId = blockId - 1;
     const info = [
       {
-        name: 'Block Number',
-        value: '37667143'
-      },
-      {
-        name: 'Validator Hash',
-        value:
-          '023ec147eb965d84efc837d6ad3a7022ce98f661c65e4486e229c0e4d76fe5ea',
-        trunc: true
+        name: 'Block Hash',
+        value: block.blockHash
       },
       {
         name: 'Timestamp',
-        value: 'Jan 16, 2019, 11:30:53.500 AM'
-      },
-      {
-        name: 'Block ID',
-        value:
-          '4fe4932a6bd08a7d0db6a4d1253dff602eba3e099b0ee9ff10ab28272d080843',
-        trunc: true
-      },
-      {
-        name: 'Previous Block ID',
-        value:
-          'dd54938facc358a137c7d3e69a6d4b40780a4d4ca12d02c84b3af899cf0ff3c5',
-        trunc: true
+        value: block.time
       },
       {
         name: 'Number of Transactions',
-        value: '0'
+        value: block.numTxs
       },
       {
-        name: 'Validators Hash',
-        value:
-          '0FCFC35329A6C63B55FDB549B719C4814EE73503E0CD8E076E0B3E72FFF39DA3',
-        trunc: true
+        name: 'Previous Block Hash',
+        value: block.lastBlockHash,
+        redirectTo: previousBlockId
+      },
+      {
+        name: 'Validator Hash',
+        value: block.validatorHash
       },
       {
         name: 'Consensus Hash',
-        value:
-          '9C1DF90B8DC54EA4F85E4B42794C20BCEFD44A75043EBE7509EDB720ADF22F23',
-        trunc: true
+        value: block.consensusHash
       }
     ];
 
@@ -75,7 +97,19 @@ export default class BlockDetailPage extends React.Component {
         <div>
           <Grid container spacing={24} justify="center">
             <Grid item xs={12} sm={10}>
-              <MarketInfo data={info} />
+              <Paper className={classes.root}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <h2>{`Block Information #${blockId}`}</h2>
+                      </TableCell>
+                      <TableCell />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>{info.map(this.renderBlock)}</TableBody>
+                </Table>
+              </Paper>
             </Grid>
           </Grid>
         </div>
@@ -83,3 +117,12 @@ export default class BlockDetailPage extends React.Component {
     );
   }
 }
+
+BlockDetailPage.propTypes = {
+  classes: PropTypes.object.isRequired,
+  match: PropTypes.string.isRequired,
+  block: PropTypes.object,
+  getBlocks: PropTypes.func.isRequired
+};
+
+export default withStyles(styles)(BlockDetailPage);
