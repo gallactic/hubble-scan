@@ -12,6 +12,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper';
 import TableRow from '@material-ui/core/TableRow';
+import TableFooter from '@material-ui/core/TableFooter';
 import TableHead from '@material-ui/core/TableHead';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -35,6 +36,7 @@ class BlockDetailPage extends React.Component {
     const { match } = this.props;
     const blockId = match.params.id;
     this.props.getBlocks(blockId);
+    this.props.getBlockTx(blockId);
   }
 
   renderBlock = data => (
@@ -52,9 +54,21 @@ class BlockDetailPage extends React.Component {
     </TableRow>
   );
 
-  render() {
-    const { match, block, classes } = this.props;
+  // TODO remove dummy tx hash
+  renderTx = data => (
+    <TableRow key={data.name}>
+      <TableCell component="th" scope="row">
+        {'5EFE6E512E160FC431511BDC240F6E6399A44B982392B9E3FA444CD8808F0BCB'}
+      </TableCell>
+      <TableCell>{data.senders.length}</TableCell>
+      <TableCell>{data.receivers.length}</TableCell>
+      <TableCell>{data.type}</TableCell>
+    </TableRow>
+  );
 
+  render() {
+    const { match, block, classes, blockTx } = this.props;
+    console.log(blockTx);
     if (!block) {
       return null;
     }
@@ -110,6 +124,37 @@ class BlockDetailPage extends React.Component {
                   <TableBody>{info.map(this.renderBlock)}</TableBody>
                 </Table>
               </Paper>
+              <Paper className={classes.root}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <h2>Transactions</h2>
+                      </TableCell>
+                      <TableCell />
+                      <TableCell />
+                      <TableCell />
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Transaction Hash</TableCell>
+                      <TableCell>Senders</TableCell>
+                      <TableCell>Receivers</TableCell>
+                      <TableCell>Type</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {blockTx ? (
+                      blockTx.map(this.renderTx)
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={6} align="center">
+                          <h3>0 Transactions</h3>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </Paper>
             </Grid>
           </Grid>
         </div>
@@ -122,7 +167,9 @@ BlockDetailPage.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.string.isRequired,
   block: PropTypes.object,
-  getBlocks: PropTypes.func.isRequired
+  blockTx: PropTypes.array,
+  getBlocks: PropTypes.func.isRequired,
+  getBlockTx: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(BlockDetailPage);

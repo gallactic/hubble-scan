@@ -7,7 +7,13 @@ const selectBlock = () => createSelector(
   (blockDetailState) => blockDetailState.get('block')
 );
 
+const selectBlockTx = () => createSelector(
+  selectBlockDetail,
+  (blockDetailState) => blockDetailState.get('blockTx')
+);
+
 export {
   selectBlockDetail,
   selectBlock,
+  selectBlockTx
 };

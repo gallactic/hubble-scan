@@ -5,8 +5,13 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 
-import { GET_BLOCK_DETAIL_REQUEST } from './constants';
-import { getBlockSuccess, getBlockError } from './actions';
+import { GET_BLOCK_DETAIL_REQUEST, GET_BLOCK_TX_REQUEST } from './constants';
+import {
+  getBlockSuccess,
+  getBlockError,
+  getBlockTxSuccess,
+  getBlockTxError
+} from './actions';
 
 export function* getBlockDetail({ data }) {
   if (data) {
@@ -42,6 +47,35 @@ export function* getBlockDetail({ data }) {
   }
 }
 
+export function* getBlockTxDetail({ data }) {
+  if (data) {
+    const requestURL = `http://157.230.32.23:50502/BlockTxs/${data}`;
+    try {
+      const result = yield call(request, requestURL);
+      if (result && result.Txs) {
+        const txList = result.Txs.map(txData => {
+          const { tx, type } = txData;
+          const { senders, receivers } = tx;
+          const txInfo = {
+            type,
+            senders,
+            receivers
+          };
+          return txInfo;
+        });
+        yield put(getBlockTxSuccess(txList));
+      } else {
+        yield put(getBlockTxError());
+      }
+    } catch (err) {
+      yield put(getBlockTxError());
+    }
+  } else {
+    yield put(getBlockTxError());
+  }
+}
+
 export default function* githubData() {
   yield takeLatest(GET_BLOCK_DETAIL_REQUEST, getBlockDetail);
+  yield takeLatest(GET_BLOCK_TX_REQUEST, getBlockTxDetail);
 }

@@ -3,18 +3,20 @@ import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
-import { getBlockRequest } from './actions';
-import { selectBlock } from './selectors';
+import { getBlockRequest, getBlockTxRequest } from './actions';
+import { selectBlock, selectBlockTx } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import BlockDetailPage from './BlockDetailPage';
 
-const mapDispatchToProps = (dispatch) => ({
-  getBlocks: (blockId) => dispatch(getBlockRequest(blockId))
+const mapDispatchToProps = dispatch => ({
+  getBlocks: blockId => dispatch(getBlockRequest(blockId)),
+  getBlockTx: blockId => dispatch(getBlockTxRequest(blockId))
 });
 
 const mapStateToProps = createStructuredSelector({
-  block: selectBlock()
+  block: selectBlock(),
+  blockTx: selectBlockTx()
 });
 
 const withConnect = connect(
