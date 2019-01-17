@@ -1,0 +1,47 @@
+.logo {
+  height: 100px;
+  padding: 10px;
+}
+
+.main {
+  background-color: #303f9f;
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.menu {
+  background-color: #303f9f;
+  padding-right: 15px;
+}
+
+.search-view {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.search {
+  width: 372px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+@media only screen and (max-width: 699px) {
+  .main {
+    /* flex-direction: column; */
+    display: flex;
+    align-items: flex-start;
+  }
+}
+
+.tab-view {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  // margin-right: 10px;
+}
+
+.tab-text {
+  color: white;
+}

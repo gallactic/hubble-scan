@@ -1,0 +1,40 @@
+.home-page {
+  background-color: #eeeeee;
+  h2 {
+    font-size: 1.5em;
+  }
+
+  section {
+    margin: 3em auto;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &.centered {
+      text-align: center;
+    }
+  }
+
+  form {
+    margin-bottom: 1em;
+
+    input {
+      outline: none;
+      border-bottom: 1px dotted #999;
+    }
+  }
+
+  span.at-prefix {
+    color: black;
+    margin-left: 0.4em;
+  }
+
+  .primary-text {
+    color: #212121;
+  }
+
+  .secondary-text {
+    color: #757575;
+  }
+}
