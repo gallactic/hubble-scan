@@ -28,6 +28,7 @@ export function* getBlockDetail({ data }) {
           consensus_hash
         } = header;
         const blockInfo = {
+          rawData: result,
           blockHash: block_id.hash,
           time,
           numTxs: num_txs,
