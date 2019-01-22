@@ -9,7 +9,14 @@ import { getBlocksSuccess } from './actions';
 import request from 'utils/request';
 
 export function* getBlocks() {
-  const requestURL = 'http://157.230.32.23:50502/Blocks/123/133';
+  const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
+  let startBlock = 1;
+  let endBlock = 10;
+  if (statusInfo) {
+    endBlock = statusInfo.LatestBlockHeight;
+    startBlock = endBlock - 10;
+  }
+  const requestURL = `http://157.230.32.23:50502/Blocks/${startBlock}/${endBlock}`;
   try {
     // Call our request helper (see 'utils/request')
     const result = yield call(request, requestURL);
