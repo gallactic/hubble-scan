@@ -1,7 +1,3 @@
-/**
- * Gets the repositories of the user from Github
- */
-
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { GET_BLOCK_LIST_REQUEST } from './constants';
 import { getBlocksSuccess } from './actions';
@@ -18,7 +14,6 @@ export function* getBlocks() {
   }
   const requestURL = `http://157.230.32.23:50502/Blocks/${startBlock}/${endBlock}`;
   try {
-    // Call our request helper (see 'utils/request')
     const result = yield call(request, requestURL);
     if (result) {
       yield put(getBlocksSuccess(result.BlockMeta));
@@ -26,7 +21,6 @@ export function* getBlocks() {
       yield put(getBlocksSuccess([]));
     }
   } catch (err) {
-    console.log(err);
     yield put(getBlocksSuccess([]));
   }
 }

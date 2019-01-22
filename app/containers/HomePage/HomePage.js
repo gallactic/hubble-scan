@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import moment from 'moment';
 import Announcement from '../../components/molecules/Announcement';
 import BlockList from '../../components/organisms/BlockListWidget';
+import TxnListWidget from '../../components/organisms/TxnListWidget';
 import MarketInfo from '../../components/organisms/MarketInfoWidget';
 // import PriceGraph from '../../components/organisms/PriceGraph';
 
@@ -36,7 +37,9 @@ class HomePage extends React.Component {
   };
 
   render() {
-    const { classes, blocks, infoData, blockInfo } = this.props;
+    const { classes, blocks, infoData, blockInfo, txns } = this.props;
+    console.log('yooo', txns);
+    
     const info = [
       {
         name: 'Chain Name',
@@ -102,7 +105,7 @@ class HomePage extends React.Component {
                 <BlockList blocks={blocks} />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <BlockList blocks={[]} />
+                <TxnListWidget txns={txns} />
               </Grid>
             </Grid>
           </div>

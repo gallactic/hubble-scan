@@ -10,7 +10,7 @@ import {
 } from 'containers/App/selectors';
 import { loadRepos } from '../App/actions';
 import { getBlocksRequest, getInfoRequest } from './actions';
-import { selectBlocks, selectInfoData, selectBlockInfo } from './selectors';
+import { selectBlocks, selectInfoData, selectBlockInfo, selectTxns } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import HomePage from './HomePage';
@@ -26,6 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = createStructuredSelector({
   repos: makeSelectRepos(),
+  txns: selectTxns(),
   blocks: selectBlocks(),
   blockInfo: selectBlockInfo(),
   infoData: selectInfoData(),

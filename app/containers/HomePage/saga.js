@@ -7,7 +7,8 @@ import { GET_BLOCKS_REQUEST, GET_INFO_REQUEST } from './constants';
 import {
   getBlocksSuccess,
   getInfoSuccess,
-  getBlockInfoSuccess
+  getBlockInfoSuccess,
+  getTxnsSuccess
 } from './actions';
 
 import request from 'utils/request';
@@ -16,6 +17,7 @@ export function* getBlocks() {
   const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
   const result = {};
   let startBlock = 1;
+  let txBlock = 1;
   let endBlock = 5;
   if (statusInfo) {
     result.latestBlockHash = statusInfo.LatestBlockHash;
@@ -23,6 +25,7 @@ export function* getBlocks() {
     result.latestBlockTime = statusInfo.LatestBlockTime;
     endBlock = statusInfo.LatestBlockHeight;
     startBlock = endBlock - 5;
+    txBlock = endBlock - 40000;
   }
   yield put(getBlockInfoSuccess(result));
   const requestURL = `http://157.230.32.23:50502/Blocks/${startBlock}/${endBlock}`;
@@ -37,6 +40,23 @@ export function* getBlocks() {
   } catch (err) {
     console.log(err);
     yield put(getBlocksSuccess([]));
+  }
+  const txRequestURL = `http://157.230.32.23:50502/Blocks/${txBlock}/${endBlock}`;
+  try {
+    // Call our request helper (see 'utils/request')
+    const blocks = yield call(request, txRequestURL);
+    if (blocks) {
+      const blockTx = blocks.BlockMeta.filter(
+        block => block.header.num_txs > 0
+      );
+      console.log('Blocks length ', blocks.BlockMeta.length, blockTx.length);
+      yield put(getTxnsSuccess(blockTx));
+    } else {
+      yield put(getTxnsSuccess([]));
+    }
+  } catch (err) {
+    console.log(err);
+    yield put(getTxnsSuccess([]));
   }
 }
 

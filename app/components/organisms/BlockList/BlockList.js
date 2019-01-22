@@ -12,9 +12,7 @@ import moment from 'moment';
 import './style.scss';
 
 const BlockList = ({ classes, blocks, match }) => {
-  console.log('BlockList blocks', blocks);
-
-  const blockList = blocks.map((item) => {
+  const blockList = blocks.map(item => {
     const block = item.header;
     return {
       blockNumber: block.height,
@@ -30,9 +28,9 @@ const BlockList = ({ classes, blocks, match }) => {
 
   return (
     <List className={classes.root}>
-      {blockList.map((block) => (
+      {blockList.map(block => (
         <Card key={block.blockNumber} style={{ marginBottom: 10 }}>
-          <ListItem >
+          <ListItem>
             <ListItemText
               primary={
                 <Link to={`blocks/${block.blockNumber}`}>
@@ -40,7 +38,7 @@ const BlockList = ({ classes, blocks, match }) => {
                 </Link>
               }
               secondary={
-                <div >
+                <div>
                   {`${block.txSize} transactions ${block.time}`}
                   <br />
                   {'Validator '}
@@ -56,7 +54,7 @@ const BlockList = ({ classes, blocks, match }) => {
   );
 };
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     // width: '100%',
     // backgroundColor: theme.palette.background.paper
