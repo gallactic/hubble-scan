@@ -40,7 +40,7 @@ class BlocksPage extends React.Component {
     return (
       <TableRow key={row.height}>
         <TableCell component="th" scope="row">
-          {row.height}
+          <Link to={`blocks/${row.height}`}>{row.height}</Link>
         </TableCell>
         <TableCell>{row.time}</TableCell>
         <TableCell>{row.validators_hash}</TableCell>
