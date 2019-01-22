@@ -11,3 +11,4 @@
 
 export const GET_BLOCK_LIST_REQUEST = 'hubblescan/BlocksPage/GET_BLOCK_LIST_REQUEST';
 export const GET_BLOCK_LIST_SUCCESS = 'hubblescan/BlocksPage/GET_BLOCK_LIST_SUCCESS';
+export const SET_LAST_BLOCK = 'hubblescan/BlocksPage/SET_LAST_BLOCK';

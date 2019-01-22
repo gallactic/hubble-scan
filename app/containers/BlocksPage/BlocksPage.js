@@ -13,6 +13,7 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
@@ -30,13 +31,60 @@ const styles = theme => ({
   }
 });
 class BlocksPage extends React.Component {
-  componentDidMount() {
-    this.props.getBlockList();
+  constructor(props) {
+    super(props);
+    this.state = {
+      rowsPerPage: 10,
+      page: 1,
+      lastPage: this.calculateLastPage(10, props.lastBlock)
+    };
   }
+
+  componentDidMount() {
+    this.fetchBlocks();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.lastBlock !== this.props.lastBlock) {
+      const { rowsPerPage } = this.state;
+      const lastPage = this.calculateLastPage(
+        rowsPerPage,
+        this.props.lastBlock
+      );
+      this.setState({ rowsPerPage, lastPage });
+    }
+  }
+
+  calculateLastPage = (rowsPerPage, lastBlock) => {
+    console.log('calc last page', rowsPerPage, lastBlock);
+    return Math.ceil(lastBlock / rowsPerPage);
+  };
+
+  handleChangeRowsPerPage = event => {
+    const rowsPerPage = event.target.value;
+    const { lastBlock } = this.props;
+    const lastPage = this.calculateLastPage(rowsPerPage, lastBlock);
+    this.setState({ rowsPerPage, lastPage, page: 1 }, this.fetchBlocks);
+  };
+
+  handleChangePage = (event, page) => {
+    this.setState({ page }, this.fetchBlocks);
+  };
+
+  fetchBlocks = () => {
+    const { lastBlock } = this.props;
+    const { rowsPerPage, page } = this.state;
+    if (lastBlock) {
+      const pageValue = rowsPerPage * page;
+      const endBlock = lastBlock - pageValue;
+      this.props.getBlockList(endBlock, rowsPerPage);
+    } else {
+      this.props.getBlockList(lastBlock, rowsPerPage);
+    }
+  };
 
   renderBlock = data => {
     const row = data.header;
-    const { match } = this.props;
     return (
       <TableRow key={row.height}>
         <TableCell component="th" scope="row">
@@ -50,8 +98,8 @@ class BlocksPage extends React.Component {
   };
 
   render() {
-    const { match, classes, blocks } = this.props;
-    let id = 0;
+    const { classes, blocks, lastBlock } = this.props;
+    const { rowsPerPage, page, lastPage } = this.state;
     return (
       <div className="account-page">
         <Helmet>
@@ -75,6 +123,21 @@ class BlocksPage extends React.Component {
               </TableHead>
               <TableBody>{blocks.map(this.renderBlock)}</TableBody>
             </Table>
+            <TablePagination
+              rowsPerPageOptions={[10, 20, 50, 100]}
+              component="div"
+              count={lastPage}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              backIconButtonProps={{
+                'aria-label': 'Previous Page'
+              }}
+              nextIconButtonProps={{
+                'aria-label': 'Next Page'
+              }}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
           </Paper>
         </div>
       </div>
@@ -83,7 +146,10 @@ class BlocksPage extends React.Component {
 }
 
 BlocksPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  blocks: PropTypes.array.isRequired,
+  lastBlock: PropTypes.number,
+  getBlockList: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(BlocksPage);

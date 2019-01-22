@@ -1,16 +1,26 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { GET_BLOCK_LIST_REQUEST } from './constants';
-import { getBlocksSuccess } from './actions';
+import { getBlocksSuccess, setLastBlock } from './actions';
 
 import request from 'utils/request';
 
-export function* getBlocks() {
-  const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
+export function* getBlocks({ data }) {
   let startBlock = 1;
   let endBlock = 10;
-  if (statusInfo) {
-    endBlock = statusInfo.LatestBlockHeight;
-    startBlock = endBlock - 10;
+  const { lastBlock, rowsPerPage } = data;
+  if (lastBlock && lastBlock !== 0) {
+    endBlock = lastBlock;
+    startBlock = endBlock - rowsPerPage;
+    console.log('endBlock ', endBlock);
+    console.log('startBlock', startBlock);
+    // yield put(setLastBlock(endBlock));
+  } else {
+    const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
+    if (statusInfo) {
+      endBlock = statusInfo.LatestBlockHeight;
+      startBlock = endBlock - rowsPerPage;
+      yield put(setLastBlock(endBlock));
+    }
   }
   const requestURL = `http://157.230.32.23:50502/Blocks/${startBlock}/${endBlock}`;
   try {

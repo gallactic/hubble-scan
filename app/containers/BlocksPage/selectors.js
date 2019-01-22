@@ -1,13 +1,17 @@
 import { createSelector } from 'reselect';
 
-const selectBlockList = (state) => state.get('blocks');
+const selectBlockList = state => state.get('blocks');
 
-const selectBlocks = () => createSelector(
-  selectBlockList,
-  (accountState) => accountState.get('blocks')
-);
+const selectBlocks = () =>
+  createSelector(
+    selectBlockList,
+    accountState => accountState.get('blocks')
+  );
 
-export {
-  selectBlockList,
-  selectBlocks,
-};
+const selectLastBlock = () =>
+  createSelector(
+    selectBlockList,
+    accountState => accountState.get('lastBlock')
+  );
+
+export { selectBlockList, selectBlocks, selectLastBlock };
