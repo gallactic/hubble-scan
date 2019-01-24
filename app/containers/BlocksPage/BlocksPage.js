@@ -35,7 +35,7 @@ class BlocksPage extends React.Component {
     super(props);
     this.state = {
       rowsPerPage: 10,
-      page: 1,
+      page: 0,
       lastPage: this.calculateLastPage(10, props.lastBlock)
     };
   }
@@ -64,7 +64,7 @@ class BlocksPage extends React.Component {
     const rowsPerPage = event.target.value;
     const { lastBlock } = this.props;
     const lastPage = this.calculateLastPage(rowsPerPage, lastBlock);
-    this.setState({ rowsPerPage, lastPage, page: 1 }, this.fetchBlocks);
+    this.setState({ rowsPerPage, lastPage, page: 0 }, this.fetchBlocks);
   };
 
   handleChangePage = (event, page) => {
@@ -126,7 +126,7 @@ class BlocksPage extends React.Component {
             <TablePagination
               rowsPerPageOptions={[10, 20, 50, 100]}
               component="div"
-              count={lastPage}
+              count={lastBlock}
               rowsPerPage={rowsPerPage}
               page={page}
               backIconButtonProps={{

@@ -9,8 +9,11 @@ export function* getBlocks({ data }) {
   let endBlock = 10;
   const { lastBlock, rowsPerPage } = data;
   if (lastBlock && lastBlock !== 0) {
-    endBlock = lastBlock + 1;
-    startBlock = endBlock - rowsPerPage - 1;
+    endBlock = lastBlock;
+    startBlock = endBlock - rowsPerPage;
+    if (startBlock < 1) {
+      startBlock = 1;
+    }
     console.log('endBlock ', endBlock);
     console.log('startBlock', startBlock);
   } else {
