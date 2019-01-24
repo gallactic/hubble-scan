@@ -16,8 +16,7 @@ const BlockList = ({ classes, blocks, match }) => {
     const block = item.header;
     return {
       blockNumber: block.height,
-      txSize: block.num_txs,
-      size: '811 bytes',
+      txSize: block.num_txs ? block.num_txs : 0,
       time: moment(block.time).fromNow(),
       validator: {
         name: 'Walter Karshat',

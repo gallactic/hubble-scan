@@ -92,7 +92,7 @@ class BlocksPage extends React.Component {
         </TableCell>
         <TableCell>{row.time}</TableCell>
         <TableCell>{row.validators_hash}</TableCell>
-        <TableCell>{row.num_txs}</TableCell>
+        <TableCell>{row.num_txs ? row.num_txs : 0}</TableCell>
       </TableRow>
     );
   };

@@ -25,7 +25,7 @@ export function* getBlocks({ data }) {
   try {
     const result = yield call(request, requestURL);
     if (result) {
-      yield put(getBlocksSuccess(result.BlockMeta));
+      yield put(getBlocksSuccess(result.Blocks));
     } else {
       yield put(getBlocksSuccess([]));
     }

@@ -35,7 +35,7 @@ class AccountPage extends React.Component {
   }
 
   renderValidator = data => {
-    const row = data.Validator;
+    const row = data;
     const { match } = this.props;
     return (
       <TableRow key={data.id}>
@@ -43,7 +43,7 @@ class AccountPage extends React.Component {
           {data.id}
         </TableCell>
         <TableCell>
-          <Link to={`${match.url}/${row.publicKey}`}>{row.publicKey}</Link>
+          <Link to={`${match.url}/${row.pub_key}`}>{row.pub_key}</Link>
         </TableCell>
         <TableCell>{row.stake}</TableCell>
         <TableCell>{row.bondingHeight}</TableCell>

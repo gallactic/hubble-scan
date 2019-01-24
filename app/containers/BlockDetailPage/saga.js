@@ -18,24 +18,27 @@ export function* getBlockDetail({ data }) {
     const requestURL = `Block/${data}`;
     try {
       const result = yield call(request, requestURL);
-      if (result && result.BlockMeta) {
-        const { header, block_id } = result.BlockMeta;
+      console.log('Block', result);
+      if (result && result.Block) {
+        const { header } = result.Block;
         const {
           num_txs,
           time,
           last_block_id,
           validators_hash,
-          consensus_hash
+          consensus_hash,
+          block_hash
         } = header;
         const blockInfo = {
           rawData: result,
-          blockHash: block_id.hash,
+          blockHash: block_hash,
           time,
-          numTxs: num_txs,
+          numTxs: num_txs ? num_txs : 0,
           lastBlockHash: last_block_id.hash,
           validatorHash: validators_hash,
           consensusHash: consensus_hash
         };
+        console.log(blockInfo);
         yield put(getBlockSuccess(blockInfo));
       } else {
         yield put(getBlockError());
@@ -55,9 +58,11 @@ export function* getBlockTxDetail({ data }) {
       const result = yield call(request, requestURL);
       if (result && result.Txs) {
         const txList = result.Txs.map(txData => {
-          const { tx, type } = txData;
+          const { Hash, Envelope } = txData;
+          const { tx, type } = JSON.parse(Envelope);
           const { senders, receivers } = tx;
           const txInfo = {
+            hash: Hash,
             type,
             senders,
             receivers

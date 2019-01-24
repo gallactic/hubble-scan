@@ -15,6 +15,8 @@ import request from 'utils/request';
 
 export function* getBlocks() {
   const statusInfo = yield call(request, 'Status');
+  console.log('statusInfo', statusInfo);
+
   const result = {};
   let startBlock = 1;
   let txBlock = 1;
@@ -25,7 +27,7 @@ export function* getBlocks() {
     result.latestBlockTime = statusInfo.LatestBlockTime;
     endBlock = statusInfo.LatestBlockHeight;
     startBlock = endBlock - 5;
-    txBlock = endBlock - 40000;
+    txBlock = endBlock < 1000 ? 1 : endBlock - 1000;
   }
   yield put(getBlockInfoSuccess(result));
   const requestURL = `Blocks/${startBlock}/${endBlock}`;
@@ -33,7 +35,7 @@ export function* getBlocks() {
     // Call our request helper (see 'utils/request')
     const blocks = yield call(request, requestURL);
     if (blocks) {
-      yield put(getBlocksSuccess(blocks.BlockMeta));
+      yield put(getBlocksSuccess(blocks.Blocks));
     } else {
       yield put(getBlocksSuccess([]));
     }
@@ -46,10 +48,8 @@ export function* getBlocks() {
     // Call our request helper (see 'utils/request')
     const blocks = yield call(request, txRequestURL);
     if (blocks) {
-      const blockTx = blocks.BlockMeta.filter(
-        block => block.header.num_txs > 0
-      );
-      console.log('Blocks length ', blocks.BlockMeta.length, blockTx.length);
+      const blockTx = blocks.Blocks.filter(block => block.header.num_txs > 0);
+      console.log('Blocks length ', blocks.Blocks.length, blockTx.length);
       yield put(getTxnsSuccess(blockTx));
     } else {
       yield put(getTxnsSuccess([]));
@@ -74,10 +74,7 @@ export function* getBlocks() {
  */
 export function* getInfo() {
   try {
-    const genesisInfo = yield call(
-      request,
-      'Genesis'
-    );
+    const genesisInfo = yield call(request, 'Genesis');
     const result = {};
     if (genesisInfo && genesisInfo.Genesis) {
       result.genesisTime = genesisInfo.Genesis.genesisTime;
