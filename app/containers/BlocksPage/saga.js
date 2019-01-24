@@ -9,20 +9,19 @@ export function* getBlocks({ data }) {
   let endBlock = 10;
   const { lastBlock, rowsPerPage } = data;
   if (lastBlock && lastBlock !== 0) {
-    endBlock = lastBlock;
-    startBlock = endBlock - rowsPerPage;
+    endBlock = lastBlock + 1;
+    startBlock = endBlock - rowsPerPage - 1;
     console.log('endBlock ', endBlock);
     console.log('startBlock', startBlock);
-    // yield put(setLastBlock(endBlock));
   } else {
-    const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
+    const statusInfo = yield call(request, 'Status');
     if (statusInfo) {
       endBlock = statusInfo.LatestBlockHeight;
       startBlock = endBlock - rowsPerPage;
       yield put(setLastBlock(endBlock));
     }
   }
-  const requestURL = `http://157.230.32.23:50502/Blocks/${startBlock}/${endBlock}`;
+  const requestURL = `Blocks/${startBlock}/${endBlock}`;
   try {
     const result = yield call(request, requestURL);
     if (result) {

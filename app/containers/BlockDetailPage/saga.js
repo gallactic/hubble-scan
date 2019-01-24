@@ -15,7 +15,7 @@ import {
 
 export function* getBlockDetail({ data }) {
   if (data) {
-    const requestURL = `http://157.230.32.23:50502/Block/${data}`;
+    const requestURL = `Block/${data}`;
     try {
       const result = yield call(request, requestURL);
       if (result && result.BlockMeta) {
@@ -50,7 +50,7 @@ export function* getBlockDetail({ data }) {
 
 export function* getBlockTxDetail({ data }) {
   if (data) {
-    const requestURL = `http://157.230.32.23:50502/BlockTxs/${data}`;
+    const requestURL = `BlockTxs/${data}`;
     try {
       const result = yield call(request, requestURL);
       if (result && result.Txs) {

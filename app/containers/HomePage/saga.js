@@ -14,7 +14,7 @@ import {
 import request from 'utils/request';
 
 export function* getBlocks() {
-  const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
+  const statusInfo = yield call(request, 'Status');
   const result = {};
   let startBlock = 1;
   let txBlock = 1;
@@ -28,7 +28,7 @@ export function* getBlocks() {
     txBlock = endBlock - 40000;
   }
   yield put(getBlockInfoSuccess(result));
-  const requestURL = `http://157.230.32.23:50502/Blocks/${startBlock}/${endBlock}`;
+  const requestURL = `Blocks/${startBlock}/${endBlock}`;
   try {
     // Call our request helper (see 'utils/request')
     const blocks = yield call(request, requestURL);
@@ -41,7 +41,7 @@ export function* getBlocks() {
     console.log(err);
     yield put(getBlocksSuccess([]));
   }
-  const txRequestURL = `http://157.230.32.23:50502/Blocks/${txBlock}/${endBlock}`;
+  const txRequestURL = `Blocks/${txBlock}/${endBlock}`;
   try {
     // Call our request helper (see 'utils/request')
     const blocks = yield call(request, txRequestURL);
@@ -76,7 +76,7 @@ export function* getInfo() {
   try {
     const genesisInfo = yield call(
       request,
-      'http://157.230.32.23:50502/Genesis'
+      'Genesis'
     );
     const result = {};
     if (genesisInfo && genesisInfo.Genesis) {
@@ -84,7 +84,7 @@ export function* getInfo() {
       result.accounts = genesisInfo.Genesis.accounts;
       result.validators = genesisInfo.Genesis.validators;
     }
-    const chainInfo = yield call(request, 'http://157.230.32.23:50502/ChainID');
+    const chainInfo = yield call(request, 'ChainID');
     if (chainInfo) {
       result.chainName = chainInfo.ChainName;
       result.chainId = chainInfo.ChainId;
