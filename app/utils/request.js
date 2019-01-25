@@ -43,7 +43,8 @@ function checkStatus(response) {
  */
 export default function request(url, options) {
   // const BASE_URL = 'http://157.230.32.23:50502';
-  const BASE_URL = 'http://192.168.0.109:50052';
+  // const BASE_URL = 'http://192.168.0.109:50052';
+  const BASE_URL = 'http://0.0.0.0:50052';
   return fetch(`${BASE_URL}/${url}`, options)
     .then(checkStatus)
     .then(parseJSON)
