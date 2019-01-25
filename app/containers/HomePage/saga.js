@@ -19,7 +19,6 @@ export function* getBlocks() {
 
   const result = {};
   let startBlock = 1;
-  let txBlock = 1;
   let endBlock = 5;
   if (statusInfo) {
     result.latestBlockHash = statusInfo.LatestBlockHash;
@@ -27,7 +26,6 @@ export function* getBlocks() {
     result.latestBlockTime = statusInfo.LatestBlockTime;
     endBlock = statusInfo.LatestBlockHeight;
     startBlock = endBlock - 5;
-    txBlock = endBlock < 1000 ? 1 : endBlock - 1000;
   }
   yield put(getBlockInfoSuccess(result));
   const requestURL = `Blocks/${startBlock}/${endBlock}`;
@@ -43,13 +41,13 @@ export function* getBlocks() {
     console.log(err);
     yield put(getBlocksSuccess([]));
   }
-  const txRequestURL = `Blocks/${txBlock}/${endBlock}`;
   try {
     // Call our request helper (see 'utils/request')
+    const txBlock = endBlock < 1000 ? 1 : endBlock - 1000;
+    const txRequestURL = `Blocks/${txBlock}/${endBlock}`;
     const blocks = yield call(request, txRequestURL);
     if (blocks) {
       const blockTx = blocks.Blocks.filter(block => block.header.num_txs > 0);
-      console.log('Blocks length ', blocks.Blocks.length, blockTx.length);
       yield put(getTxnsSuccess(blockTx));
     } else {
       yield put(getTxnsSuccess([]));

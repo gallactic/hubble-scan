@@ -77,7 +77,7 @@ class BlockDetailPage extends React.Component {
   renderTx = data => (
     <TableRow key={data.name}>
       <TableCell component="th" scope="row">
-        {data.hash}
+        <Link to={`/txs/${data.hash}`}>{data.hash}</Link>
       </TableCell>
       <TableCell>{data.senders.length}</TableCell>
       <TableCell>{data.receivers.length}</TableCell>
