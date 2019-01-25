@@ -43,11 +43,11 @@ class AccountPage extends React.Component {
           {data.id}
         </TableCell>
         <TableCell>
-          <Link to={`${match.url}/${row.pub_key}`}>{row.pub_key}</Link>
+          <Link to={`${match.url}/${row.address}`}>{row.address}</Link>
         </TableCell>
-        <TableCell>{row.stake}</TableCell>
-        <TableCell>{row.bondingHeight}</TableCell>
-        <TableCell>{row.sequence}</TableCell>
+        <TableCell>{row.pub_key}</TableCell>
+        <TableCell>{row.stack ? row.stack : 0}</TableCell>
+        <TableCell>{row.power}</TableCell>
       </TableRow>
     );
   };
@@ -75,10 +75,10 @@ class AccountPage extends React.Component {
               <TableHead>
                 <TableRow>
                   <TableCell>#</TableCell>
+                  <TableCell>Address</TableCell>
                   <TableCell>Public Key</TableCell>
                   <TableCell>Stake</TableCell>
-                  <TableCell>Bonding Height</TableCell>
-                  <TableCell>Sequence</TableCell>
+                  <TableCell>Power</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{validatorMap.map(this.renderValidator)}</TableBody>
