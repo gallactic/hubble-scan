@@ -15,14 +15,14 @@ import { Logo } from 'res/Icons';
 import Search from 'components/molecules/Search';
 import './style.scss';
 
-const TabView = (props) => (
+const TabView = props => (
   <Link to={props.to} className="tab-text">
     <Tab label={props.label} />
   </Link>
 );
 
-const MenuItem = (props) => (
-  <Link to={props.to} >
+const MenuItem = props => (
+  <Link to={props.to}>
     <ListItem button>
       {/* <ListItemText primary={props.label} classes="tab-text"/> */}
       <div className="tab-text">{props.label}</div>
@@ -30,17 +30,35 @@ const MenuItem = (props) => (
   </Link>
 );
 class Header extends React.Component {
-
   constructor(props) {
     super(props);
     // Don't call this.setState() here!
-    this.state = { checked: 0 };
+    this.state = { checked: 0, search: '' };
     this.openMenu = this.openMenu.bind(this);
+    this.onSearchValueChanged = this.onSearchValueChanged.bind(this);
+    this.onSearchPressed = this.onSearchPressed.bind(this);
   }
+
+  onSearchValueChanged = event => {
+    this.setState({ search: event.target.value });
+  };
+
+  onSearchPressed = () => {
+    const { search } = this.state;
+    if (search) {
+      if (isNaN(search)) {
+        this.props.history.push(`/txs/${search}`);
+      } else {
+        this.props.history.push(`/blocks/${search}`);
+      }
+    }
+    this.setState({ search: '' });
+  };
 
   openMenu = () => {
     this.setState({ checked: !this.state.checked });
-  }
+  };
+
   render() {
     const { location, routes } = this.props;
     const { checked } = this.state;
@@ -50,7 +68,7 @@ class Header extends React.Component {
       <div>
         <AppBar position="static">
           <Media query="(max-width: 699px)">
-            {(matches) => (
+            {matches => (
               <div>
                 <div className="main">
                   <Link to={routes[0]}>
@@ -59,17 +77,18 @@ class Header extends React.Component {
                   <div className="tab-view">
                     {matches && (
                       <div>
-                        <IconButton
-                          onClick={this.openMenu}
-                        >
-                          <MenuIcon className="tab-text"/>
+                        <IconButton onClick={this.openMenu}>
+                          <MenuIcon className="tab-text" />
                         </IconButton>
                       </div>
                     )}
                     {!matches && (
                       <div className="search-view">
                         <div className="search">
-                          <Search />
+                          <Search
+                            onChange={this.onSearchValueChanged}
+                            onSearch={this.onSearchPressed}
+                          />
                         </div>
                         <Tabs
                           value={routes.indexOf(currentLocation)}

@@ -7,6 +7,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -15,6 +17,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import ReactJson from 'react-json-view';
 
 import './style.scss';
 
@@ -31,6 +34,10 @@ const styles = theme => ({
 });
 
 class BlockDetailPage extends React.Component {
+  state = {
+    rawData: false
+  };
+
   componentDidMount() {
     const { match } = this.props;
     const blockId = match.params.id;
@@ -46,6 +53,10 @@ class BlockDetailPage extends React.Component {
       this.props.getBlockTx(blockId);
     }
   }
+
+  handleHiddenChange = (event, rawData) => {
+    this.setState({ rawData });
+  };
 
   renderBlock = data => (
     <TableRow key={data.name}>
@@ -66,7 +77,7 @@ class BlockDetailPage extends React.Component {
   renderTx = data => (
     <TableRow key={data.name}>
       <TableCell component="th" scope="row">
-        {'5EFE6E512E160FC431511BDC240F6E6399A44B982392B9E3FA444CD8808F0BCB'}
+        <Link to={`/txs/${data.hash}`}>{data.hash}</Link>
       </TableCell>
       <TableCell>{data.senders.length}</TableCell>
       <TableCell>{data.receivers.length}</TableCell>
@@ -74,11 +85,21 @@ class BlockDetailPage extends React.Component {
     </TableRow>
   );
 
-  render() {
-    const { match, block, classes, blockTx } = this.props;
-    console.log(blockTx);
-    if (!block) {
-      return null;
+  renderTableBody = () => {
+    const { match, block, classes } = this.props;
+    const { rawData } = this.state;
+    if (rawData) {
+      return (
+        <TableRow>
+          <TableCell colSpan={2}>
+            <ReactJson
+              style={{ padding: 10, width: 700 }}
+              src={block.rawData}
+              displayDataTypes={false}
+            />
+          </TableCell>
+        </TableRow>
+      );
     }
     const blockId = match.params.id;
     const previousBlockId = blockId - 1;
@@ -109,6 +130,16 @@ class BlockDetailPage extends React.Component {
         value: block.consensusHash
       }
     ];
+    return info.map(this.renderBlock);
+  };
+
+  render() {
+    const { match, block, classes, blockTx } = this.props;
+    if (!block) {
+      return null;
+    }
+    const blockId = match.params.id;
+    const { rawData } = this.state;
 
     return (
       <div className="block-detail-page">
@@ -126,10 +157,23 @@ class BlockDetailPage extends React.Component {
                       <TableCell>
                         <h2>{`Block Information #${blockId}`}</h2>
                       </TableCell>
-                      <TableCell />
+                      <TableCell align="right">
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              checked={rawData}
+                              onChange={this.handleHiddenChange}
+                              value="rawData"
+                              color="primary"
+                            />
+                          }
+                          labelPlacement="start"
+                          label="Raw Data"
+                        />
+                      </TableCell>
                     </TableRow>
                   </TableHead>
-                  <TableBody>{info.map(this.renderBlock)}</TableBody>
+                  <TableBody>{this.renderTableBody()}</TableBody>
                 </Table>
               </Paper>
               <Paper className={classes.root}>

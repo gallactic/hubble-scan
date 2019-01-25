@@ -20,7 +20,8 @@ import {
   GET_BLOCKS_SUCCESS,
   GET_INFO_REQUEST,
   GET_INFO_SUCCESS,
-  GET_BLOCK_INFO_SUCCESS
+  GET_BLOCK_INFO_SUCCESS,
+  GET_TXNS_SUCCESS
 } from './constants';
 
 export function getBlocksRequest() {
@@ -52,6 +53,13 @@ export function getInfoSuccess(data) {
 export function getBlockInfoSuccess(data) {
   return {
     type: GET_BLOCK_INFO_SUCCESS,
+    data
+  };
+}
+
+export function getTxnsSuccess(data) {
+  return {
+    type: GET_TXNS_SUCCESS,
     data
   };
 }

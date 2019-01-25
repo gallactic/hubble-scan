@@ -11,34 +11,22 @@ import moment from 'moment';
 
 import './style.scss';
 
-const BlockList = ({ classes, blocks, match }) => {
-  const blockList = blocks.map(item => {
-    const block = item.header;
-    return {
-      blockNumber: block.height,
-      txSize: block.num_txs ? block.num_txs : 0,
-      time: moment(block.time).fromNow(),
-      blockHash: block.block_hash
-    };
-  });
-
+const TxnList = ({ classes, txns, match }) => {
   return (
     <List className={classes.root}>
-      {blockList.map(block => (
-        <Card key={block.blockNumber} style={{ marginBottom: 10 }}>
+      {txns.map(block => (
+        <Card key={block.txHash} style={{ marginBottom: 10 }}>
           <ListItem>
             <ListItemText
-              primary={
-                <Link to={`blocks/${block.blockNumber}`}>
-                  {block.blockNumber}
-                </Link>
-              }
+              primary={<Link to={`txs/${block.txHash}`}>{block.txHash}</Link>}
               secondary={
                 <div>
-                  {`${block.txSize} transactions ${block.time}`}
+                  <b>{block.type}</b>
+                  {` Transaction in block ${block.blockId}`}
                   <br />
-                  <MiddleTruncate text={block.blockHash} />
-                  {/* {`Reward ${block.reward} GTX`} */}
+                  {`${block.senders} Sender ${
+                    block.receivers
+                  } Receiver ${moment(block.time).fromNow()}`}
                 </div>
               }
             />
@@ -59,13 +47,13 @@ const styles = theme => ({
   }
 });
 
-BlockList.propTypes = {
+TxnList.propTypes = {
   classes: PropTypes.object.isRequired,
-  blocks: PropTypes.array,
+  txns: PropTypes.array,
   match: PropTypes.string
 };
-BlockList.defaultProps = {
-  blocks: []
+TxnList.defaultProps = {
+  txns: []
 };
 
-export default withStyles(styles)(BlockList);
+export default withStyles(styles)(TxnList);

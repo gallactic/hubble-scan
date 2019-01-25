@@ -7,18 +7,18 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import BlockList from '../BlockList';
+import TxnList from '../TxnList';
 
 import './style.scss';
 
-const BlockListWidget = ({ classes, match, blocks }) => {
+const TxnListWidget = ({ classes, match, txns }) => {
   return (
     <Card raised>
       <CardActions>
         <Typography gutterBottom variant="h5" component="h2">
-          Recent Blocks
+          Recent Transactions
         </Typography>
-        {blocks && blocks.length > 0 && (
+        {txns && txns.length > 0 && (
           <Link to={'blocks'} className="tab-text">
             <Button size="small" color="primary">
               View all
@@ -27,7 +27,7 @@ const BlockListWidget = ({ classes, match, blocks }) => {
         )}
       </CardActions>
       <CardContent>
-        {blocks && blocks.length > 0 && <BlockList blocks={blocks} />}
+        {txns && txns.length > 0 && <TxnList txns={txns} />}
       </CardContent>
     </Card>
   );
@@ -43,8 +43,8 @@ const styles = theme => ({
   }
 });
 
-BlockListWidget.propTypes = {
+TxnListWidget.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(BlockListWidget);
+export default withStyles(styles)(TxnListWidget);

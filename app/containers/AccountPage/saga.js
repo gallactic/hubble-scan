@@ -9,10 +9,11 @@ import { getValidatorSuccess } from './actions';
 import request from 'utils/request';
 
 export function* getValidators() {
-  const requestURL = 'http://157.230.32.23:50502/Validators';
+  const requestURL = 'Validators';
   try {
     // Call our request helper (see 'utils/request')
     const result = yield call(request, requestURL);
+    console.log('result', result);
     if (result) {
       yield put(getValidatorSuccess(result.Validators));
     } else {

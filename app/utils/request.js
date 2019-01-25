@@ -23,7 +23,7 @@ function parseJSON(response) {
  */
 function checkStatus(response) {
   console.log('checkStatus', response);
-  
+
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -42,7 +42,11 @@ function checkStatus(response) {
  * @return {object}           The response data
  */
 export default function request(url, options) {
-  return fetch(url, options)
+  // const BASE_URL = 'http://157.230.32.23:50502';
+  // const BASE_URL = 'http://192.168.0.109:50052';
+  const BASE_URL = 'http://0.0.0.0:50052';
+  return fetch(`${BASE_URL}/${url}`, options)
     .then(checkStatus)
-    .then(parseJSON);
+    .then(parseJSON)
+    .catch(error => console.log(error));
 }

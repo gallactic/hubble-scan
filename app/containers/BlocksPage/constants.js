@@ -9,10 +9,6 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const GET_INFO_REQUEST = 'hubblescan/Home/GET_INFO_REQUEST';
-export const GET_INFO_SUCCESS = 'hubblescan/Home/GET_INFO_SUCCESS';
-
-export const GET_BLOCKS_REQUEST = 'hubblescan/Home/GET_BLOCKS_REQUEST';
-export const GET_BLOCKS_SUCCESS = 'hubblescan/Home/GET_BLOCKS_SUCCESS';
-export const GET_BLOCK_INFO_SUCCESS = 'hubblescan/Home/GET_BLOCK_INFO_SUCCESS';
-export const GET_TXNS_SUCCESS = 'hubblescan/Home/GET_TXNS_SUCCESS';
+export const GET_BLOCK_LIST_REQUEST = 'hubblescan/BlocksPage/GET_BLOCK_LIST_REQUEST';
+export const GET_BLOCK_LIST_SUCCESS = 'hubblescan/BlocksPage/GET_BLOCK_LIST_SUCCESS';
+export const SET_LAST_BLOCK = 'hubblescan/BlocksPage/SET_LAST_BLOCK';
