@@ -48,7 +48,25 @@ export function* getBlocks() {
     const blocks = yield call(request, txRequestURL);
     if (blocks) {
       const blockTx = blocks.Blocks.filter(block => block.header.num_txs > 0);
-      yield put(getTxnsSuccess(blockTx));
+      const txResult = [];
+      blockTx.forEach(block => {
+        block.Txs.forEach(txElement => {
+          if (txResult.length > 5) {
+            return;
+          }
+          txElement.Envelope = JSON.parse(txElement.Envelope);
+          const txn = {
+            blockId: block.header.height,
+            time: block.header.time,
+            txHash: txElement.Hash,
+            type: txElement.Envelope.type,
+            senders: txElement.Envelope.tx.senders.length,
+            receivers: txElement.Envelope.tx.senders.length
+          };
+          txResult.push(txn);
+        });
+      });
+      yield put(getTxnsSuccess(txResult));
     } else {
       yield put(getTxnsSuccess([]));
     }

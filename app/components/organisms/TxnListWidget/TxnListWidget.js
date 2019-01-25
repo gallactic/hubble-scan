@@ -7,7 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import BlockList from '../BlockList';
+import TxnList from '../TxnList';
 
 import './style.scss';
 
@@ -27,7 +27,7 @@ const TxnListWidget = ({ classes, match, txns }) => {
         )}
       </CardActions>
       <CardContent>
-        {txns && txns.length > 0 && <BlockList blocks={txns} />}
+        {txns && txns.length > 0 && <TxnList txns={txns} />}
       </CardContent>
     </Card>
   );
