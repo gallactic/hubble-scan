@@ -38,8 +38,6 @@ class HomePage extends React.Component {
 
   render() {
     const { classes, blocks, infoData, blockInfo, txns } = this.props;
-    console.log('yooo', txns);
-    
     const info = [
       {
         name: 'Chain Name',

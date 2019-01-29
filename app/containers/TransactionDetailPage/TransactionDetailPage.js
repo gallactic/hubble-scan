@@ -83,7 +83,7 @@ class TransactionDetailPage extends React.Component {
     <TableRow key={data.id}>
       <TableCell>{data.id}</TableCell>
       <TableCell component="th" scope="row">
-        <Link to={`/txs/${data.address}`}>{data.address}</Link>
+        <Link to={`/accounts/${data.address}`}>{data.address}</Link>
       </TableCell>
       <TableCell>{data.sequence}</TableCell>
       <TableCell>{data.amount}</TableCell>
