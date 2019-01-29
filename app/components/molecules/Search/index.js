@@ -43,13 +43,16 @@ const styles = theme => ({
 });
 
 const Search = props => {
-  const { classes, onSearch, onChange } = props;
+  const {
+    classes, onSearch, onChange, value
+  } = props;
   return (
     <div>
       <TextField
         id="outlined-full-width"
         label="Search"
         onChange={onChange}
+        value={value}
         InputProps={{
           classes: {
             input: classes.resize,
@@ -84,7 +87,8 @@ const Search = props => {
 Search.propTypes = {
   classes: PropTypes.object.isRequired,
   onSearch: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  defaultValue: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(Search);
