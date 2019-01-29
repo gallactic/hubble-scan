@@ -37,4 +37,10 @@
   .secondary-text {
     color: #757575;
   }
+  .rows-view {
+    display: flex;
+    // background: red;
+    flex-direction: row;
+    align-items: center;
+  }
 }
