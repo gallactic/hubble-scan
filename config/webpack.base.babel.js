@@ -4,16 +4,20 @@
 
 const path = require('path');
 const webpack = require('webpack');
-
+const Dotenv = require('dotenv-webpack');
 process.noDeprecation = true;
 
-module.exports = (options) => ({
+module.exports = options => ({
   mode: options.mode,
   entry: options.entry,
-  output: Object.assign({ // Compile into js/build.js
-    path: path.resolve(process.cwd(), 'build'),
-    publicPath: '/',
-  }, options.output), // Merge with env dependent settings
+  output: Object.assign(
+    {
+      // Compile into js/build.js
+      path: path.resolve(process.cwd(), 'build'),
+      publicPath: '/'
+    },
+    options.output
+  ), // Merge with env dependent settings
   module: {
     rules: [
       {
@@ -21,24 +25,24 @@ module.exports = (options) => ({
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: options.babelQuery,
-        },
+          options: options.babelQuery
+        }
       },
       {
         // Preprocess our own .scss files
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         // Preprocess 3rd party .css files located in node_modules
         test: /\.css$/,
         include: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
-        use: 'file-loader',
+        use: 'file-loader'
       },
       {
         test: /\.(jpg|png|gif)$/,
@@ -62,9 +66,9 @@ module.exports = (options) => ({
                   speed: 4
                 }
               }
-            },
-          },
-        ],
+            }
+          }
+        ]
       },
       {
         test: /\.html$/,
@@ -76,10 +80,10 @@ module.exports = (options) => ({
           loader: 'url-loader',
           options: {
             limit: 10000
-          },
-        },
-      },
-    ],
+          }
+        }
+      }
+    ]
   },
   plugins: options.plugins.concat([
     new webpack.ProvidePlugin({
@@ -93,22 +97,17 @@ module.exports = (options) => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      },
-    })
+      }
+    }),
+    new Dotenv()
   ]),
+  node: {
+    fs: 'empty'
+  },
   resolve: {
     modules: ['app', 'node_modules'],
-    extensions: [
-      '.js',
-      '.jsx',
-      '.scss',
-      '.react.js'
-    ],
-    mainFields: [
-      'browser',
-      'jsnext:main',
-      'main'
-    ]
+    extensions: ['.js', '.jsx', '.scss', '.react.js'],
+    mainFields: ['browser', 'jsnext:main', 'main']
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window

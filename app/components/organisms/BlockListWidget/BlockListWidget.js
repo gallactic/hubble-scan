@@ -16,22 +16,24 @@ const BlockListWidget = ({ classes, match, blocks }) => {
     <Card raised>
       <CardActions>
         <Typography gutterBottom variant="h5" component="h2">
-          Blocks
+          Recent Blocks
         </Typography>
-        <Link to={'blocks'} className="tab-text">
-          <Button size="small" color="primary">
-            View all
-          </Button>
-        </Link>
+        {blocks && blocks.length > 0 && (
+          <Link to={'blocks'} className="tab-text">
+            <Button size="small" color="primary">
+              View all
+            </Button>
+          </Link>
+        )}
       </CardActions>
       <CardContent>
-        <BlockList blocks={blocks} />
+        {blocks && blocks.length > 0 && <BlockList blocks={blocks} />}
       </CardContent>
     </Card>
   );
 };
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper

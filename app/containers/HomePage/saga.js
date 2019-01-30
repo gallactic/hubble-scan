@@ -7,13 +7,14 @@ import { GET_BLOCKS_REQUEST, GET_INFO_REQUEST } from './constants';
 import {
   getBlocksSuccess,
   getInfoSuccess,
-  getBlockInfoSuccess
+  getBlockInfoSuccess,
+  getTxnsSuccess
 } from './actions';
 
 import request from 'utils/request';
 
 export function* getBlocks() {
-  const statusInfo = yield call(request, 'http://157.230.32.23:50502/Status');
+  const statusInfo = yield call(request, 'Status');
   const result = {};
   let startBlock = 1;
   let endBlock = 5;
@@ -25,18 +26,51 @@ export function* getBlocks() {
     startBlock = endBlock - 5;
   }
   yield put(getBlockInfoSuccess(result));
-  const requestURL = `http://157.230.32.23:50502/Blocks/${startBlock}/${endBlock}`;
+  const requestURL = `Blocks/${startBlock}/${endBlock}`;
   try {
     // Call our request helper (see 'utils/request')
     const blocks = yield call(request, requestURL);
     if (blocks) {
-      yield put(getBlocksSuccess(blocks.BlockMeta));
+      yield put(getBlocksSuccess(blocks.Blocks));
     } else {
       yield put(getBlocksSuccess([]));
     }
   } catch (err) {
     console.log(err);
     yield put(getBlocksSuccess([]));
+  }
+  try {
+    // Call our request helper (see 'utils/request')
+    const txBlock = endBlock < 1000 ? 1 : endBlock - 1000;
+    const txRequestURL = `Blocks/${txBlock}/${endBlock}`;
+    const blocks = yield call(request, txRequestURL);
+    if (blocks) {
+      const blockTx = blocks.Blocks.filter(block => block.header.num_txs > 0);
+      const txResult = [];
+      blockTx.forEach(block => {
+        block.Txs.forEach(txElement => {
+          if (txResult.length > 5) {
+            return;
+          }
+          txElement.Envelope = JSON.parse(txElement.Envelope);
+          const txn = {
+            blockId: block.header.height,
+            time: block.header.time,
+            txHash: txElement.Hash,
+            type: txElement.Envelope.type,
+            senders: txElement.Envelope.tx.senders.length,
+            receivers: txElement.Envelope.tx.senders.length
+          };
+          txResult.push(txn);
+        });
+      });
+      yield put(getTxnsSuccess(txResult));
+    } else {
+      yield put(getTxnsSuccess([]));
+    }
+  } catch (err) {
+    console.log(err);
+    yield put(getTxnsSuccess([]));
   }
 }
 
@@ -54,17 +88,14 @@ export function* getBlocks() {
  */
 export function* getInfo() {
   try {
-    const genesisInfo = yield call(
-      request,
-      'http://157.230.32.23:50502/Genesis'
-    );
+    const genesisInfo = yield call(request, 'Genesis');
     const result = {};
     if (genesisInfo && genesisInfo.Genesis) {
       result.genesisTime = genesisInfo.Genesis.genesisTime;
       result.accounts = genesisInfo.Genesis.accounts;
       result.validators = genesisInfo.Genesis.validators;
     }
-    const chainInfo = yield call(request, 'http://157.230.32.23:50502/ChainID');
+    const chainInfo = yield call(request, 'ChainID');
     if (chainInfo) {
       result.chainName = chainInfo.ChainName;
       result.chainId = chainInfo.ChainId;
