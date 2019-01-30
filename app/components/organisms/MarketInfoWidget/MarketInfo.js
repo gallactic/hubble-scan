@@ -5,28 +5,40 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import MiddleTruncate from 'react-middle-truncate';
 import Grid from '@material-ui/core/Grid';
+import CopyIcon from '@material-ui/icons/filecopy';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-const InfoView = ({ data }) => {
-  return (
-    <div>
-      <Typography className="primary-text" component="p">
-        {data.name}
-      </Typography>
-      <Typography
-        className="secondary-text"
-        gutterBottom
-        variant="h6"
-        component="h6"
-      >
-        {data.trunc ? (
-          <MiddleTruncate className="secondary-text" text={data.value} />
-        ) : (
-          <div className="secondary-text">{data.value}</div>
-        )}
-      </Typography>
-    </div>
-  );
-};
+const InfoView = ({ data }) => (
+  <div>
+    <Typography className="primary-text" component="p">
+      {data.name}
+    </Typography>
+    <Typography
+      className="secondary-text"
+      gutterBottom
+      variant="h6"
+      component="h6"
+    >
+      {data.trunc ? (
+        <div className="rows-view address">
+          <MiddleTruncate className="secondary-text child" text={data.value} />
+          <CopyToClipboard
+            onCopy={(text, result) => {
+              if (result) {
+                alert('copied successfully');
+              }
+            }}
+            text={data.value}
+          >
+            <CopyIcon />
+          </CopyToClipboard>
+        </div>
+      ) : (
+        <div className="secondary-text">{data.value}</div>
+      )}
+    </Typography>
+  </div>
+);
 
 const GridContent = ({ data }) => {
   const viewMap = [];
@@ -43,26 +55,22 @@ const GridContent = ({ data }) => {
   return viewMap;
 };
 
-const MarketInfo = ({ data, classes }) => {
-  return (
-    <Card className={classes.card}>
-      <Grid container>
-        <GridContent data={data} />
-      </Grid>
-    </Card>
-  );
-};
+const MarketInfo = ({ data, classes }) => (
+  <Card className={classes.card}>
+    <Grid container>
+      <GridContent data={data} />
+    </Grid>
+  </Card>
+);
 
 MarketInfo.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.array.isRequired
 };
 
-const styles = () => {
-  return {
-    card: {
-      padding: 20
-    }
-  };
-};
+const styles = () => ({
+  card: {
+    padding: 20
+  }
+});
 export default withStyles(styles)(MarketInfo);
