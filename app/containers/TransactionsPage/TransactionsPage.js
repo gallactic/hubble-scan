@@ -1,15 +1,11 @@
 /* eslint-disable arrow-parens */
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -69,7 +65,6 @@ class TransactionsPage extends React.Component {
   }
 
   calculateLastPage = (rowsPerPage, lastBlock) => {
-    console.log('calc last page', rowsPerPage, lastBlock);
     return Math.ceil(lastBlock / rowsPerPage);
   };
 
@@ -98,22 +93,11 @@ class TransactionsPage extends React.Component {
 
   renderBlock = data => {
     const row = data.header;
-    // return (
-    //   <TableRow key={row.height}>
-    //     <TableCell component="th" scope="row">
-    //       <Link to={`blocks/${row.height}`}>{row.height}</Link>
-    //     </TableCell>
-    //     <TableCell>{row.time}</TableCell>
-    //     <TableCell>{row.validators_hash}</TableCell>
-    //     <TableCell>{row.num_txs ? row.num_txs : 0}</TableCell>
-    //   </TableRow>
-    // );
     const { classes } = this.props;
     const txNumber = row.num_txs ? row.num_txs : 0;
     const txns = data.Txs ? data.Txs : [];
-    console.log('renderBlock', txns);
     return (
-      <ExpansionPanel key={row.height}>
+      <ExpansionPanel key={row.height} >
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>
             {`Block #${row.height}`}

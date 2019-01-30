@@ -33,7 +33,6 @@ TxItem.propTypes = {
 };
 
 const TxnListTable = ({ classes, txns, displayHeader }) => {
-  console.log('TxnListTable', txns);
   return (
     <Table className={classes.table}>
       <TableHead>
@@ -52,7 +51,7 @@ const TxnListTable = ({ classes, txns, displayHeader }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {txns ? (
+        {txns && txns.length > 0 ? (
           txns.map(data => <TxItem data={data} key={data.name} />)
         ) : (
           <TableRow>
