@@ -91,7 +91,7 @@ class BlocksPage extends React.Component {
           <Link to={`blocks/${row.height}`}>{row.height}</Link>
         </TableCell>
         <TableCell>{row.time}</TableCell>
-        <TableCell>{row.validators_hash}</TableCell>
+        <TableCell>{row.block_hash}</TableCell>
         <TableCell>{row.num_txs ? row.num_txs : 0}</TableCell>
       </TableRow>
     );
@@ -117,7 +117,7 @@ class BlocksPage extends React.Component {
                 <TableRow>
                   <TableCell>Block Number</TableCell>
                   <TableCell>Timestamp</TableCell>
-                  <TableCell>Validators Hash</TableCell>
+                  <TableCell>Block Hash</TableCell>
                   <TableCell>Num Txs</TableCell>
                 </TableRow>
               </TableHead>
