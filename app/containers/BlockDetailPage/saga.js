@@ -18,7 +18,6 @@ export function* getBlockDetail({ data }) {
     const requestURL = `Block/${data}`;
     try {
       const result = yield call(request, requestURL);
-      console.log('Block', result);
       if (result && result.Block) {
         const { header } = result.Block;
         const {
@@ -38,7 +37,6 @@ export function* getBlockDetail({ data }) {
           validatorHash: validators_hash,
           consensusHash: consensus_hash
         };
-        console.log(blockInfo);
         yield put(getBlockSuccess(blockInfo));
       } else {
         yield put(getBlockError());

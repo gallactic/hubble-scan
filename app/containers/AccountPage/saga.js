@@ -13,7 +13,6 @@ export function* getValidators() {
   try {
     // Call our request helper (see 'utils/request')
     const result = yield call(request, requestURL);
-    console.log('result', result);
     if (result) {
       yield put(getValidatorSuccess(result.Validators));
     } else {
