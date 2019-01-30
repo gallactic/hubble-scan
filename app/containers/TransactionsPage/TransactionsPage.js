@@ -16,6 +16,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import TxnListTable from '../../components/organisms/TxnListTable';
 
 import './style.scss';
 
@@ -28,6 +29,9 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700
+  },
+  tableRoot: {
+    width: '100%'
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -106,6 +110,8 @@ class TransactionsPage extends React.Component {
     // );
     const { classes } = this.props;
     const txNumber = row.num_txs ? row.num_txs : 0;
+    const txns = data.Txs ? data.Txs : [];
+    console.log('renderBlock', txns);
     return (
       <ExpansionPanel key={row.height}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -117,10 +123,9 @@ class TransactionsPage extends React.Component {
           </Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <Paper className={classes.tableRoot}>
+            <TxnListTable txns={txns} displayHeader={false} />
+          </Paper>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
@@ -135,20 +140,8 @@ class TransactionsPage extends React.Component {
           <title>Account Page</title>
           <meta name="description" content="Account Page" />
         </Helmet>
-        {/* <h1>Account lists</h1>
-        <div>
-          <Link to={`${match.url}/${tx}`}>{tx}</Link>
-        </div> */}
         <div>
           <Table className={classes.table}>
-            {/* <TableHead>
-                <TableRow>
-                  <TableCell>Block Number</TableCell>
-                  <TableCell>Timestamp</TableCell>
-                  <TableCell>Validators Hash</TableCell>
-                  <TableCell>Num Txs</TableCell>
-                </TableRow>
-              </TableHead> */}
             <TableBody>{blocks.map(this.renderBlock)}</TableBody>
           </Table>
           <Paper className={classes.root}>

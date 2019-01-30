@@ -33,6 +33,7 @@ TxItem.propTypes = {
 };
 
 const TxnListTable = ({ classes, txns, displayHeader }) => {
+  console.log('TxnListTable', txns);
   return (
     <Table className={classes.table}>
       <TableHead>
