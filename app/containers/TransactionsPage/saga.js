@@ -1,7 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { GET_BLOCK_LIST_REQUEST } from './constants';
 import { getBlocksSuccess, setLastBlock } from './actions';
-
 import request from 'utils/request';
 
 export function* getBlocks({ data }) {
@@ -14,8 +13,6 @@ export function* getBlocks({ data }) {
     if (startBlock < 1) {
       startBlock = 1;
     }
-    console.log('endBlock ', endBlock);
-    console.log('startBlock', startBlock);
   } else {
     const statusInfo = yield call(request, 'Status');
     if (statusInfo) {
@@ -27,8 +24,26 @@ export function* getBlocks({ data }) {
   const requestURL = `Blocks/${startBlock}/${endBlock}`;
   try {
     const result = yield call(request, requestURL);
-    if (result) {
-      yield put(getBlocksSuccess(result.Blocks));
+    if (result && result.Blocks) {
+      const blocks = result.Blocks.map(block => {
+        if (block.Txs) {
+          const txList = block.Txs.map(txData => {
+            const { Hash, Envelope } = txData;
+            const { tx, type } = JSON.parse(Envelope);
+            const { senders, receivers } = tx;
+            const txInfo = {
+              hash: Hash,
+              type,
+              senders,
+              receivers
+            };
+            return txInfo;
+          });
+          block.Txs = txList;
+        }
+        return block;
+      });
+      yield put(getBlocksSuccess(blocks));
     } else {
       yield put(getBlocksSuccess([]));
     }

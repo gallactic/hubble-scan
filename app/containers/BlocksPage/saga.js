@@ -14,8 +14,6 @@ export function* getBlocks({ data }) {
     if (startBlock < 1) {
       startBlock = 1;
     }
-    console.log('endBlock ', endBlock);
-    console.log('startBlock', startBlock);
   } else {
     const statusInfo = yield call(request, 'Status');
     if (statusInfo) {
