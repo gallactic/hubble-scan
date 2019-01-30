@@ -86,6 +86,7 @@ class Header extends React.Component {
                       <div className="search-view">
                         <div className="search">
                           <Search
+                            value={this.state.search}
                             onChange={this.onSearchValueChanged}
                             onSearch={this.onSearchPressed}
                           />
