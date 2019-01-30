@@ -18,6 +18,7 @@ import TableHead from '@material-ui/core/TableHead';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import ReactJson from 'react-json-view';
+import TxnListTable from '../../components/organisms/TxnListTable';
 
 import './style.scss';
 
@@ -177,35 +178,7 @@ class BlockDetailPage extends React.Component {
                 </Table>
               </Paper>
               <Paper className={classes.root}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <h2>Transactions</h2>
-                      </TableCell>
-                      <TableCell />
-                      <TableCell />
-                      <TableCell />
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Transaction Hash</TableCell>
-                      <TableCell>Senders</TableCell>
-                      <TableCell>Receivers</TableCell>
-                      <TableCell>Type</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {blockTx ? (
-                      blockTx.map(this.renderTx)
-                    ) : (
-                      <TableRow>
-                        <TableCell colSpan={6} align="center">
-                          <h3>0 Transactions</h3>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
+                <TxnListTable txns={blockTx} />
               </Paper>
             </Grid>
           </Grid>

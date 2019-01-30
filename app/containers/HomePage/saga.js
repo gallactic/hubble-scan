@@ -15,8 +15,6 @@ import request from 'utils/request';
 
 export function* getBlocks() {
   const statusInfo = yield call(request, 'Status');
-  console.log('statusInfo', statusInfo);
-
   const result = {};
   let startBlock = 1;
   let endBlock = 5;

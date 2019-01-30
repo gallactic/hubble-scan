@@ -20,8 +20,8 @@ const InfoView = ({ data }) => (
       component="h6"
     >
       {data.trunc ? (
-        <div className="rows-view">
-          <MiddleTruncate className="secondary-text" text={data.value} />
+        <div className="rows-view address">
+          <MiddleTruncate className="secondary-text child" text={data.value} />
           <CopyToClipboard
             onCopy={(text, result) => {
               if (result) {
