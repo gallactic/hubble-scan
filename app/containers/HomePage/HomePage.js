@@ -88,7 +88,7 @@ class HomePage extends React.Component {
         </Helmet>
         <div className="home-page">
           <div className={classes.root}>
-            <Announcement />
+            {/* <Announcement /> */}
             <Grid container spacing={24}>
               <Grid item xs={12} sm={6}>
                 <MarketInfo data={info} />
