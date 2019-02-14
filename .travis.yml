@@ -1,18 +1,13 @@
 language: node_js
 
-os: osx
+os: linux
 
 node_js:
   - 8
-  - 6
-  
-script:
-  - npm run test
-  - npm run build
 
-notifications:
-  email:
-    on_failure: change
+script:
+  - npm install
+  - npm run build
 
 cache:
   yarn: true

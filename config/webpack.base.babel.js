@@ -5,6 +5,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
+
 process.noDeprecation = true;
 
 module.exports = options => ({
@@ -99,7 +100,11 @@ module.exports = options => ({
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    new Dotenv()
+    new Dotenv({
+      path: `./.env.${
+        process.env.NODE_ENV === 'production' ? 'production' : 'development'
+      }`
+    })
   ]),
   node: {
     fs: 'empty'
