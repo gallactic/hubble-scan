@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import MiddleTruncate from 'react-middle-truncate';
 import Grid from '@material-ui/core/Grid';
-import CopyIcon from '@material-ui/icons/filecopy';
+import CopyIcon from '@material-ui/icons/FileCopy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const InfoView = ({ data }) => (
