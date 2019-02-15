@@ -18,7 +18,5 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - aws s3 sync build/ "s3://${BUCKET_NAME}" --delete --exclude 'build/index.html' --exclude 'build/*' --metadata-directive REPLACE --cache-control public,max-age=604800,s-maxage=86400
-      - aws s3 sync build/ "s3://${BUCKET_NAME}" --exclude='*' --include='build/*' --metadata-directive REPLACE --cache-control public,max-age=0,s-maxage=600 --content-type application/json
-      - aws s3 sync build/ "s3://${BUCKET_NAME}" --exclude='*' --include='build/index.html' --metadata-directive REPLACE --cache-control public,max-age=0,s-maxage=600 --content-type text/html
+      - aws s3 sync build/ "s3://${BUCKET_NAME}"
       - echo Files Uploaded to S3
