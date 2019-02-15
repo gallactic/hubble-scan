@@ -7,11 +7,14 @@ phases:
       - npm install
       - echo prebuild
       - npm run prebuild
+
   build:
     commands:
       - echo Build started on `date`
       - echo Compiling the React code
-      - npm run build
+      - npm run "${BUILD_ENV}"
+
+
   post_build:
     commands:
       - echo Build completed on `date`
